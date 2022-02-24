@@ -6,6 +6,6 @@
 	path = thirdparty/mongo-cxx-driver
 	url = https://github.com/mongodb/mongo-cxx-driver.git
     branch = v3.5
-[submodule "thirdparty/boost"]
-	path = thirdparty/boost
-	url = https://github.com/boostorg/boost.git
+[submodule "thirdparty/mongo-c-driver"]
+	path = thirdparty/mongo-c-driver
+	url = https://github.com/mongodb/mongo-c-driver.git
