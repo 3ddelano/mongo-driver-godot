@@ -1,0 +1,57 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Reference",
+"class": "MongoGodot",
+"language": "GDScript",
+"path": "res://addons/mongo-godot-driver/mongo_godot.gd"
+}, {
+"base": "",
+"class": "MongoGodotCollection",
+"language": "NativeScript",
+"path": "res://addons/mongo-godot-driver/mongo_godot_collection.gdns"
+}, {
+"base": "Reference",
+"class": "MongoGodotConnection",
+"language": "NativeScript",
+"path": "res://addons/mongo-godot-driver/mongo_godot_connection.gdns"
+}, {
+"base": "Reference",
+"class": "MongoGodotDatabase",
+"language": "NativeScript",
+"path": "res://addons/mongo-godot-driver/mongo_godot_database.gdns"
+}, {
+"base": "Reference",
+"class": "MongoGodotDriver",
+"language": "NativeScript",
+"path": "res://addons/mongo-godot-driver/mongo_godot_driver.gdns"
+} ]
+_global_script_class_icons={
+"MongoGodot": "",
+"MongoGodotCollection": "",
+"MongoGodotConnection": "",
+"MongoGodotDatabase": "",
+"MongoGodotDriver": ""
+}
+
+[application]
+
+config/name="Mongo Godot Driver"
+run/main_scene="res://Main.tscn"
+config/icon="res://icon.png"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

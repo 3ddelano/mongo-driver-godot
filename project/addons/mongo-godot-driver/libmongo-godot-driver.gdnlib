@@ -1,0 +1,18 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="godot_"
+reloadable=true
+
+[entry]
+
+OSX.64="res://addons/mongo-godot-driver/bin/osx/libmongo-godot-driver.dylib"
+Windows.64="res://addons/mongo-godot-driver/bin/win64/libmongo-godot-driver.dll"
+X11.64="res://addons/mongo-godot-driver/bin/linux/libmongo-godot-driver.so"
+
+[dependencies]
+
+OSX.64=[  ]
+Windows.64=[ "res://addons/mongo-godot-driver/bin/win64/bson-1.0.dll", "res://addons/mongo-godot-driver/bin/win64/bsoncxx.dll", "res://addons/mongo-godot-driver/bin/win64/concrt140.dll", "res://addons/mongo-godot-driver/bin/win64/mongoc-1.0.dll", "res://addons/mongo-godot-driver/bin/win64/mongocxx.dll", "res://addons/mongo-godot-driver/bin/win64/msvcp140.dll", "res://addons/mongo-godot-driver/bin/win64/msvcp140_1.dll", "res://addons/mongo-godot-driver/bin/win64/msvcp140_2.dll", "res://addons/mongo-godot-driver/bin/win64/vcruntime140.dll" ]
+X11.64=[  ]

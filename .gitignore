@@ -1,0 +1,7 @@
+.sconsign.dblite
+run.bat
+*.exp
+*.lib
+*.obj
+*.o
+.env
