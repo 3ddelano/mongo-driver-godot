@@ -5,3 +5,5 @@ run.bat
 *.obj
 *.o
 .env
+bin/
+mongo-godot-*.zip

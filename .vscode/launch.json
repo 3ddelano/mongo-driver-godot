@@ -30,7 +30,7 @@
       "cwd": "${workspaceFolder}/project/",
       "environment": [],
       "console": "integratedTerminal",
-      "preLaunchTask": "build_debug"
+      "preLaunchTask": "build_release"
     }
   ],
   "compounds": [

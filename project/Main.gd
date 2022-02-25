@@ -30,8 +30,8 @@ func _ready() -> void:
 	var bikes = hello.get_collection("bikes")
 	var users = firstDatabase.get_collection("Users")
 
-	var bot = connection.get_data
-	return
+#	cakes = cakes as MongoGodotCollection
+	print(cakes.find())
 
 	# Find one
 #	var item = users.find_one({
@@ -75,9 +75,7 @@ func _ready() -> void:
 #	]))
 
 	# Count documents
-#	print(cakes.count_documents({
-#		e = 1
-#	}))
+#	print(cakes.count_documents())
 
 	# Estimated document count
 #	print(cakes.estimated_document_count())
@@ -103,11 +101,11 @@ func _ready() -> void:
 #	bikes.insert_many(arr)
 
 #	print("-")
-	print(bikes.update_many({
-		n = MongoGodot.Lt(5)
-	}, MongoGodot.Set({
-		n = -5
-	})))
+#	print(bikes.update_many({
+#		n = MongoGodot.Lt(5)
+#	}, MongoGodot.Set({
+#		n = -5
+#	})))
 
 	# Update one
 #	print(bikes.update_one({

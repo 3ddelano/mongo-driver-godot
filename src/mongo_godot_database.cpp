@@ -12,16 +12,23 @@ void MongoGodotDatabase::_set_database(mongocxx::database p_database) {
     _database = p_database;
 }
 
-Variant MongoGodotDatabase::get_collection_names() {
+Variant MongoGodotDatabase::get_collection_names(Dictionary p_filter) {
     if (!_database) {
         return ERR_DICT("Datbase not setup");
     }
     try {
-        std::vector<std::string> collectionVector = _database.list_collection_names();
+        bsoncxx::document::value filter_bson = DICT_TO_BSON(p_filter);
+        std::vector<std::string> collectionVector = _database.list_collection_names(filter_bson.view());
         Array collections = Array();
+
+        std::ofstream outdata;
+        outdata.open("D:/Projects/Cpp/log.txt");
+        outdata << "size is " << collectionVector.size() << std::endl;
         for (auto& collection : collectionVector) {
+            outdata << collection.c_str() << std::endl;
             collections.push_back(String(collection.c_str()));
         }
+        outdata.close();
         return collections;
     } catch (mongocxx::exception& e) {
         return ERR_DICT(e.what());

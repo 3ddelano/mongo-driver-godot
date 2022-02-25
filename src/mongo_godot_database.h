@@ -1,8 +1,12 @@
 #ifndef MONGOGODOTDATABASE_H
 #define MONGOGODOTDATABASE_H
 
+#include <fstream>
+#include <iostream>
+
 #include <Godot.hpp>
 #include <Reference.hpp>
+#include <fstream>
 
 #include <mongo_godot_collection.h>
 #include <mongo_godot_helpers.h>
@@ -26,7 +30,7 @@ class MongoGodotDatabase : public Reference {
 
     // Actual methods
     void _set_database(mongocxx::database p_database);
-    Variant get_collection_names();
+    Variant get_collection_names(Dictionary filter = Dictionary());
     Ref<MongoGodotCollection> get_collection(String p_collection_name);
 };
 

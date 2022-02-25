@@ -5,13 +5,14 @@
       "includePath": [
         "${workspaceFolder}",
         "${workspaceFolder}/src/",
-        "${workspaceFolder}/thirdparty/",
+
         "${workspaceFolder}/thirdparty/godot-cpp/godot-headers",
         "${workspaceFolder}/thirdparty/godot-cpp/include",
         "${workspaceFolder}/thirdparty/godot-cpp/include/core",
         "${workspaceFolder}/thirdparty/godot-cpp/include/gen",
-        "${workspaceFolder}/thirdparty/boost/",
-        "${workspaceFolder}/thirdparty/mongo-cxx-driver/include/"
+
+        "${workspaceFolder}/bin/mongo-cxx-driver/include/bsoncxx/v_noabi/",
+        "${workspaceFolder}/bin/mongo-cxx-driver/include/mongocxx/v_noabi/"
       ],
       "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
       "compileCommands": "${default}",

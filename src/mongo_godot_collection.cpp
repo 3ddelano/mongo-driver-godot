@@ -61,7 +61,7 @@ Dictionary MongoGodotCollection::find_one_and_delete(Dictionary p_filter) {
         bsoncxx::document::value filter_bson = DICT_TO_BSON(p_filter);
         auto doc = _collection.find_one_and_delete(filter_bson.view());
         if (!doc) {
-            return ERR_DICT("Error in find one and delet.");
+            return ERR_DICT("Error in find one and delete.");
         }
         return BSON_TO_DICT(doc.value());
     } catch (mongocxx::exception& e) {

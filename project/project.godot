@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "NativeScript",
 "path": "res://addons/mongo-godot-driver/mongo_godot_collection.gdns"
 }, {
-"base": "Reference",
+"base": "",
 "class": "MongoGodotConnection",
 "language": "NativeScript",
 "path": "res://addons/mongo-godot-driver/mongo_godot_connection.gdns"

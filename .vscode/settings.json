@@ -1,5 +1,12 @@
 {
   "files.exclude": {
     "**/*.obj": true
+  },
+  "files.associations": {
+    "*.rmd": "markdown",
+    "cstdlib": "cpp",
+    "ios": "cpp",
+    "xstring": "cpp",
+    "vector": "cpp"
   }
 }
