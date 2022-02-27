@@ -7,12 +7,11 @@
 #include <mongo_godot_database.h>
 #include <mongo_godot_helpers.h>
 
-#include <mongocxx/client.hpp>
 #include <mongocxx/exception/exception.hpp>
-#include <mongocxx/uri.hpp>
 
 using namespace godot;
 
+/// Represents a connection to a MongoDB server.
 class MongoGodotConnection : public Reference {
     GODOT_CLASS(MongoGodotConnection, Reference)
   private:
@@ -28,9 +27,23 @@ class MongoGodotConnection : public Reference {
     };
 
     // Actual methods
-    void _connect_to_server(String p_uri);
-    Variant MongoGodotConnection::get_database_names(Dictionary filter = Dictionary());
-    Ref<MongoGodotDatabase> get_database(String database_name = "");
+    void _set_client(mongocxx::client* client);
+
+    /**
+     * @brief Gets the names of the databases on the server.
+     *
+     * @param filter Optional query expression to filter the returned database names.
+     * @return Array of database names or error Dictionary
+     */
+    Variant MongoGodotConnection::get_database_names(Dictionary filter = {});
+
+    /**
+     * @brief Obtains a database thats represents a logical grouping of collections on a MongoDB server
+     *
+     * @param name Name of the database to get
+     * @return The MongoGodotDatabase or error Dictionary
+     */
+    Variant get_database(String name = "");
 };
 
 #endif

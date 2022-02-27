@@ -1,0 +1,19 @@
+.. Mongo Godot Driver documentation master file, created by
+   sphinx-quickstart on Fri Feb 25 15:46:50 2022.
+
+Welcome to Mongo Godot Driver's documentation!
+==============================================
+
+.. toctree::
+    :caption: Contents
+    :numbered:
+
+    installation
+
+.. toctree::
+    :caption: Classes
+
+    classes/MongoGodotDriver
+    classes/MongoGodotConnection
+    classes/MongoGodotDatabase
+    classes/MongoGodotCollection

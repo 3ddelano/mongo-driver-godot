@@ -18,4 +18,8 @@ using namespace godot;
 
 #define ERR_DICT(msg) (Dictionary::make("MongoGodotError", msg))
 
+#define OPTIONAL_KEY_FROM_DICT_AND_CALL_METHOD(from_dict, key, type, method)                                                \
+    if (from_dict.has(key))                                                                                                 \
+        method((type) from_dict[key]);
+
 #endif

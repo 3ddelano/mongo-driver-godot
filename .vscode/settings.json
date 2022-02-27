@@ -7,6 +7,55 @@
     "cstdlib": "cpp",
     "ios": "cpp",
     "xstring": "cpp",
-    "vector": "cpp"
-  }
+    "vector": "cpp",
+    "system_error": "cpp",
+    "filesystem": "cpp",
+    "memory_resource": "cpp",
+    "variant": "cpp",
+    "format": "cpp",
+    "functional": "cpp",
+    "fstream": "cpp",
+    "xlocmes": "cpp",
+    "algorithm": "cpp",
+    "charconv": "cpp",
+    "chrono": "cpp",
+    "cmath": "cpp",
+    "execution": "cpp",
+    "forward_list": "cpp",
+    "list": "cpp",
+    "regex": "cpp",
+    "tuple": "cpp",
+    "type_traits": "cpp",
+    "xhash": "cpp",
+    "xlocale": "cpp",
+    "xlocnum": "cpp",
+    "xtree": "cpp",
+    "xutility": "cpp",
+    "iomanip": "cpp",
+    "map": "cpp"
+  },
+
+  "runOnSave.statusMessageTimeout": 1500,
+  "runOnSave.commands": [
+    {
+      "match": "\\.h$",
+      "command": "cd ${workspaceFolder} && docs",
+      "runIn": "terminal",
+      "runningStatusMessage": "Building docs",
+      "finishStatusMessage": "Finished building docs"
+    },
+    {
+      "match": "\\.rst$",
+      "command": "cd ${workspaceFolder}/docs && sphinx-build -b html . build",
+      "runIn": "terminal",
+      "runningStatusMessage": "Building rst only docs",
+      "finishStatusMessage": "Finished building rst only docs"
+    },
+    {
+      "match": "\\.gd$",
+      "command": "cls && cd ${workspaceFolder} && run_tests",
+      "runIn": "terminal"
+    }
+  ],
+  "restructuredtext.languageServer.disabled": true
 }

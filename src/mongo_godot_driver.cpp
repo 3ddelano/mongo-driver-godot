@@ -13,12 +13,19 @@ void MongoGodotDriver::_init() {
     }
 }
 
-// Return a Dictionary on error, or a Ref<MongoGodotConnection> on success
 Variant MongoGodotDriver::connect_to_server(String p_uri) {
-    if (p_uri.length() == 0) {
-        return ERR_DICT("Invalid uri provided.");
+    if (p_uri.empty() || p_uri.length() == 0) {
+        return ERR_DICT("Invalid URI provided.");
     }
-    Ref<MongoGodotConnection> ref = (Ref<MongoGodotConnection>) MongoGodotConnection::_new();
-    ref->_connect_to_server(p_uri);
-    return ref;
+
+    // Try to create a URI object from the given string
+    try {
+        Ref<MongoGodotConnection> ref = (Ref<MongoGodotConnection>) MongoGodotConnection::_new();
+        mongocxx::uri _uri(p_uri.utf8().get_data());
+        mongocxx::client* _client = new mongocxx::client(_uri);
+        ref->_set_client(_client);
+        return ref;
+    } catch (mongocxx::exception& e) {
+        return ERR_DICT(e.what());
+    }
 }

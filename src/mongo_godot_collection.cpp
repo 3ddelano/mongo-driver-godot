@@ -23,8 +23,8 @@ void MongoGodotCollection::_set_collection(mongocxx::collection p_collection) {
     _collection = p_collection;
 }
 
-Dictionary MongoGodotCollection::find_one(Dictionary p_filter) {
-    ENSURE_SETUP();
+Dictionary MongoGodotCollection::find_one(Dictionary p_filter, Dictionary p_options) {
+    ENSURE_COLLECTION_SETUP();
 
     try {
         bsoncxx::document::value filter_bson = DICT_TO_BSON(p_filter);
@@ -38,12 +38,18 @@ Dictionary MongoGodotCollection::find_one(Dictionary p_filter) {
     }
 }
 
-Variant MongoGodotCollection::find(Dictionary p_filter) {
-    ENSURE_SETUP();
+Variant MongoGodotCollection::find(Dictionary p_filter, Dictionary p_options) {
+    ENSURE_COLLECTION_SETUP();
 
     try {
         bsoncxx::document::value filter_bson = DICT_TO_BSON(p_filter);
-        auto docs = _collection.find(filter_bson.view());
+        mongocxx::options::find options;
+
+        if (!p_options.empty()) {
+            _parse_find_options(options, p_options);
+        }
+
+        auto docs = _collection.find(filter_bson.view(), options);
         Array result = Array();
         for (auto doc : docs) {
             result.push_back(BSON_TO_DICT(doc));
@@ -54,8 +60,66 @@ Variant MongoGodotCollection::find(Dictionary p_filter) {
     }
 }
 
-Dictionary MongoGodotCollection::find_one_and_delete(Dictionary p_filter) {
-    ENSURE_SETUP();
+void MongoGodotCollection::_parse_find_options(mongocxx::options::find& options, Dictionary p_options) {
+    OPTIONAL_KEY_FROM_DICT_AND_CALL_METHOD(p_options, "allow_disk_use", bool, options.allow_disk_use);
+    OPTIONAL_KEY_FROM_DICT_AND_CALL_METHOD(p_options, "allow_partial_results", bool, options.allow_partial_results);
+    OPTIONAL_KEY_FROM_DICT_AND_CALL_METHOD(p_options, "batch_size", int, options.batch_size);
+    OPTIONAL_KEY_FROM_DICT_AND_CALL_METHOD(p_options, "no_cursor_timeout", bool, options.no_cursor_timeout);
+    OPTIONAL_KEY_FROM_DICT_AND_CALL_METHOD(p_options, "return_key", bool, options.return_key);
+    OPTIONAL_KEY_FROM_DICT_AND_CALL_METHOD(p_options, "show_record_id", bool, options.show_record_id);
+    OPTIONAL_KEY_FROM_DICT_AND_CALL_METHOD(p_options, "skip", int, options.skip);
+    OPTIONAL_KEY_FROM_DICT_AND_CALL_METHOD(p_options, "limit", int, options.limit);
+
+    if (p_options.has("min")) {
+        options.min(DICT_TO_BSON(((Dictionary) p_options["min"])));
+    }
+
+    if (p_options.has("max")) {
+        options.max(DICT_TO_BSON(((Dictionary) p_options["max"])));
+    }
+
+    if (p_options.has("projection")) {
+        options.projection(DICT_TO_BSON(((Dictionary) p_options["projection"])));
+    }
+
+    if (p_options.has("sort")) {
+        options.sort(DICT_TO_BSON(((Dictionary) p_options["sort"])));
+    }
+
+    if (p_options.has("collation")) {
+        options.collation(DICT_TO_BSON(((Dictionary) p_options["collation"])));
+    }
+
+    if (p_options.has("cursor_type")) {
+        int cursor_type = p_options["cursor_type"];
+        options.cursor_type(static_cast<mongocxx::cursor::type>(cursor_type));
+    }
+
+    if (p_options.has("max_await_time")) {
+        int max_await_time = p_options["max_await_time"];
+        options.max_await_time(std::chrono::milliseconds(max_await_time));
+    }
+
+    if (p_options.has("max_time")) {
+        int max_time = p_options["max_time"];
+        options.max_time(std::chrono::milliseconds(max_time));
+    }
+
+    // TODO: support hint
+    if (p_options.has("hint"))
+        WARN_PRINT("hint is not yet supported.");
+
+    // TODO: support comment
+    if (p_options.has("comment"))
+        WARN_PRINT("comment is not yet supported.");
+
+    // TODO:: support read_preference
+    if (p_options.has("read_preference"))
+        WARN_PRINT("read_preference is not yet supported.");
+}
+
+Dictionary MongoGodotCollection::find_one_and_delete(Dictionary p_filter, Dictionary p_options) {
+    ENSURE_COLLECTION_SETUP();
 
     try {
         bsoncxx::document::value filter_bson = DICT_TO_BSON(p_filter);
@@ -70,7 +134,7 @@ Dictionary MongoGodotCollection::find_one_and_delete(Dictionary p_filter) {
 }
 
 Dictionary MongoGodotCollection::find_one_and_replace(Dictionary p_filter, Dictionary p_doc) {
-    ENSURE_SETUP();
+    ENSURE_COLLECTION_SETUP();
 
     try {
         bsoncxx::document::value filter_bson = DICT_TO_BSON(p_filter);
@@ -85,13 +149,47 @@ Dictionary MongoGodotCollection::find_one_and_replace(Dictionary p_filter, Dicti
     }
 }
 
-Dictionary MongoGodotCollection::find_one_and_update(Dictionary p_filter, Dictionary p_doc) {
-    ENSURE_SETUP();
+Dictionary MongoGodotCollection::find_one_and_update(Dictionary p_filter, Dictionary p_doc, Dictionary p_options) {
+    ENSURE_COLLECTION_SETUP();
+
+    mongocxx::options::find_one_and_update options;
+    if (!p_options.empty()) {
+        // Parse the options
+
+        if (p_options.has("collation")) {
+            Dictionary collation = p_options["collation"];
+            options.collation(DICT_TO_BSON(collation));
+        }
+        if (p_options.has("bypass_document_validation") && p_options["bypass_document_validation"]) {
+            options.bypass_document_validation(true);
+        }
+        if (p_options.has("projection")) {
+            Dictionary projection = p_options["projection"];
+            options.projection(DICT_TO_BSON(projection));
+        }
+        if (p_options.has("return_document")) {
+            int return_document = p_options["return_document"];
+            options.return_document(static_cast<mongocxx::options::return_document>(return_document));
+        }
+        if (p_options.has("sort")) {
+            Dictionary sort = p_options["sort"];
+            options.sort(DICT_TO_BSON(sort));
+        }
+        if (p_options.has("upsert")) {
+            bool upsert = p_options["upsert"];
+            options.upsert(upsert);
+        }
+        if (p_options.has("array_filters")) {
+            bsoncxx::document::view options_bson = DICT_TO_BSON(p_options).view();
+            bsoncxx::array::view array_filters = options_bson["array_filters"].get_array().value;
+            options.array_filters(array_filters);
+        }
+    }
 
     try {
         bsoncxx::document::value filter_bson = DICT_TO_BSON(p_filter);
         bsoncxx::document::value doc_bson = DICT_TO_BSON(p_doc);
-        auto doc = _collection.find_one_and_update(filter_bson.view(), doc_bson.view());
+        auto doc = _collection.find_one_and_update(filter_bson.view(), doc_bson.view(), options);
         if (!doc) {
             return ERR_DICT("Error in find one and update.");
         }
@@ -102,7 +200,7 @@ Dictionary MongoGodotCollection::find_one_and_update(Dictionary p_filter, Dictio
 }
 
 Dictionary MongoGodotCollection::insert_one(Dictionary p_doc) {
-    ENSURE_SETUP();
+    ENSURE_COLLECTION_SETUP();
 
     if (p_doc.empty()) {
         return ERR_DICT("Collection is empty.");
@@ -121,7 +219,7 @@ Dictionary MongoGodotCollection::insert_one(Dictionary p_doc) {
 }
 
 Dictionary MongoGodotCollection::insert_many(Array p_docs) {
-    ENSURE_SETUP();
+    ENSURE_COLLECTION_SETUP();
 
     try {
         std::vector<bsoncxx::document::value> docs;
@@ -148,7 +246,7 @@ Dictionary MongoGodotCollection::insert_many(Array p_docs) {
 }
 
 Dictionary MongoGodotCollection::replace_one(Dictionary p_filter, Dictionary p_doc) {
-    ENSURE_SETUP();
+    ENSURE_COLLECTION_SETUP();
 
     try {
         bsoncxx::document::value filter_bson = DICT_TO_BSON(p_filter);
@@ -176,7 +274,7 @@ Dictionary MongoGodotCollection::replace_one(Dictionary p_filter, Dictionary p_d
 }
 
 Dictionary MongoGodotCollection::update_one(Dictionary p_filter, Dictionary p_doc) {
-    ENSURE_SETUP();
+    ENSURE_COLLECTION_SETUP();
 
     try {
         bsoncxx::document::value filter_bson = DICT_TO_BSON(p_filter);
@@ -204,7 +302,7 @@ Dictionary MongoGodotCollection::update_one(Dictionary p_filter, Dictionary p_do
 }
 
 Dictionary MongoGodotCollection::update_many(Dictionary p_filter, Dictionary p_doc) {
-    ENSURE_SETUP();
+    ENSURE_COLLECTION_SETUP();
 
     try {
         bsoncxx::document::value filter_bson = DICT_TO_BSON(p_filter);
@@ -232,7 +330,7 @@ Dictionary MongoGodotCollection::update_many(Dictionary p_filter, Dictionary p_d
 }
 
 Dictionary MongoGodotCollection::delete_one(Dictionary p_filter) {
-    ENSURE_SETUP();
+    ENSURE_COLLECTION_SETUP();
 
     try {
         bsoncxx::document::value filter_bson = DICT_TO_BSON(p_filter);
@@ -247,7 +345,7 @@ Dictionary MongoGodotCollection::delete_one(Dictionary p_filter) {
 }
 
 Dictionary MongoGodotCollection::delete_many(Dictionary p_filter) {
-    ENSURE_SETUP();
+    ENSURE_COLLECTION_SETUP();
     try {
         bsoncxx::document::value filter_bson = DICT_TO_BSON(p_filter);
         auto result = _collection.delete_many(filter_bson.view());
@@ -270,13 +368,12 @@ bool MongoGodotCollection::rename(String p_name, bool p_drop_target_before_renam
     }
 }
 
-bool MongoGodotCollection::drop() {
+Variant MongoGodotCollection::drop() {
     try {
         _collection.drop();
         return true;
     } catch (mongocxx::exception& e) {
-        ERR_PRINT(e.what());
-        return false;
+        return ERR_DICT(e.what());
     }
 }
 

@@ -1,6 +1,19 @@
 class_name MongoGodot
 extends Reference
 
+class FindOneOptions:
+	enum ReturnDocument {
+		BEFORE,
+		AFTER
+	}
+
+class FindOptions:
+	enum CursorType {
+		NON_TAILABLE,
+		TAILABLE,
+		TAILABLE_AWAIT
+	}
+
 # ----- Operators -----
 
 static func ObjectId(id) -> Dictionary:
@@ -391,9 +404,10 @@ static func JsonSchema(val) -> Dictionary:
 		"$jsonSchema": val
 	}
 
-static func Regex(val) -> Dictionary:
+static func Regex(val, options := "") -> Dictionary:
 	return {
-		"$regex": val
+		"$regex": val,
+		"$options": options
 	}
 
 static func Text(val) -> Dictionary:
