@@ -9,12 +9,16 @@ void MongoGodotConnection::_set_client(mongocxx::client* p_client) {
     _client = p_client;
 }
 
-Variant MongoGodotConnection::get_database_names(Dictionary p_filter) {
-    if (!_client) {
-        return ERR_DICT("Not connected to Mongo server");
+Variant MongoGodotConnection::get_database_names(const Dictionary& p_filter) {
+    if (_client == nullptr || !_client) {
+        return ERR_DICT("Connection not setup");
     }
+
     try {
-        bsoncxx::document::value filter_doc = bsoncxx::from_json(p_filter.to_json().utf8().get_data());
+        bsoncxx::document::value filter_doc = bsoncxx::builder::basic::make_document();
+        if (!p_filter.empty()) {
+            filter_doc = bsoncxx::from_json(p_filter.to_json().utf8().get_data());
+        }
         std::vector<std::string> databaseVector = _client->list_database_names(filter_doc.view());
         Array databasesArr = Array();
         for (auto& database : databaseVector) {

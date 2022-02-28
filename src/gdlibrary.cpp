@@ -2,6 +2,7 @@
 #include <mongo_godot_connection.h>
 #include <mongo_godot_database.h>
 #include <mongo_godot_driver.h>
+#include <mongo_godot_index.h>
 
 using namespace godot;
 
@@ -20,4 +21,5 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void* handle) {
     register_class<MongoGodotConnection>();
     register_class<MongoGodotDatabase>();
     register_class<MongoGodotCollection>();
+    register_class<MongoGodotIndex>();
 }

@@ -23,6 +23,11 @@ static func ObjectId(id) -> Dictionary:
 		"$oid": id
 	}
 
+static func Date(date) -> Dictionary:
+	return {
+		"$date": date
+	}
+
 static func Set(dict) -> Dictionary:
 	assert(typeof(dict) == TYPE_DICTIONARY, "Invalid Dictionary to set operator")
 	return {

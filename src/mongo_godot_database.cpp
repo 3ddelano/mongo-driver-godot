@@ -5,9 +5,7 @@ void MongoGodotDatabase::_register_methods() {
     register_method("get_collection", &MongoGodotDatabase::get_collection);
     register_method("run_command", &MongoGodotDatabase::run_command);
     register_method("drop", &MongoGodotDatabase::drop);
-}
-
-void MongoGodotDatabase::_init() {
+    register_method("create_collection", &MongoGodotDatabase::create_collection);
 }
 
 void MongoGodotDatabase::_set_database(mongocxx::database p_database) {
@@ -46,7 +44,7 @@ Dictionary MongoGodotDatabase::run_command(Dictionary p_command) {
     try {
         bsoncxx::document::value command_bson = DICT_TO_BSON(p_command);
         bsoncxx::document::value result_bson = _database.run_command(command_bson.view());
-        return BSON_TO_DICT(result_bson);
+        return BSON_DOCUMENT_TO_DICT(result_bson);
     } catch (mongocxx::exception& e) {
         return ERR_DICT(e.what());
     }
@@ -57,6 +55,19 @@ Variant MongoGodotDatabase::drop() {
     try {
         _database.drop();
         return true;
+    } catch (mongocxx::exception& e) {
+        return ERR_DICT(e.what());
+    }
+}
+
+Variant MongoGodotDatabase::create_collection(String p_name, Dictionary p_options) {
+    ENSURE_DATABASE_SETUP();
+
+    try {
+        mongocxx::collection collection = _database.create_collection(p_name.utf8().get_data(), DICT_TO_BSON(p_options));
+        Ref<MongoGodotCollection> ref = (Ref<MongoGodotCollection>) MongoGodotCollection::_new();
+        ref->_set_collection(collection);
+        return ref;
     } catch (mongocxx::exception& e) {
         return ERR_DICT(e.what());
     }

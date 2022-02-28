@@ -36,7 +36,7 @@ var type_to_str = {
 
 func describe(text):
 	TestUtils.describe_count += 1
-	print("\n-----Testing: %s" % str(text))
+	print("\n-----Testing: %s (%s)" % [str(text), get_script().get_path()])
 
 func test(text, sub_text= ""):
 	TestUtils.test_count += 1
@@ -104,6 +104,13 @@ func assert_not_null(thing):
 	t("Expected %s to not be null" % str(thing))
 	return _randx123xyz[""]
 
+func assert_true(thing):
+	if thing == true:
+		return
+
+	t("Expected %s to be true" % str(thing))
+	return _randx123xyz[""]
+
 func assert_is_mongo_error(thing):
 	if typeof(thing) == TYPE_DICTIONARY:
 		return
@@ -115,4 +122,11 @@ func assert_is_mongo_error(thing):
 		return
 
 	t("Expected %s to be a Dictionary<MongoError>" % str(thing))
+	return _randx123xyz[""]
+
+func assert_is_not_mongo_error(thing):
+	if not (typeof(thing) == TYPE_DICTIONARY and thing.size() == 1 and thing.has("MongoGodotError")):
+		return
+
+	t("Expected %s to not be a Dictionary<MongoError>" % str(thing))
 	return _randx123xyz[""]

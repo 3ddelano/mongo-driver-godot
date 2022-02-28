@@ -17,7 +17,10 @@ func run():
 
 	test("default constructed connection cannot call methods")
 	connection = MongoGodotConnection.new()
-	res = connection.get_database_names()
+	print("gd1")
+	res = connection.get_database_names({})
+	print("gd2")
+	print(res)
 	assert_is_mongo_error(res)
 
 	test("get_database_names", "no filter")

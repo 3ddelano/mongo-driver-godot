@@ -10,7 +10,7 @@ env = DefaultEnvironment()
 # Define our options
 opts.Add(BoolVariable('clean_obj', "Remove *.obj files?", 'no'))
 opts.Add(EnumVariable('target', "Compilation target",
-         'release', ['d', 'debug', 'r', 'release']))
+         'debug', ['d', 'debug', 'r', 'release']))
 opts.Add(EnumVariable('platform', "Compilation platform",
          'windows', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'",
@@ -30,7 +30,7 @@ MONGO_C_LIBPATH = "bin/mongo-c-driver/lib/"
 MONGO_C_INCLUDE_PATH = "bin/mongo-c-driver/include/"
 MONGO_CXX_LIBPATH = "bin/mongo-cxx-driver/lib/"
 MONGO_CXX_INCLUDE_PATH = "bin/mongo-cxx-driver/include/"
-BOOST_INCLUDE_PATH = "D:/Program Files/boost_1_78_0"
+#BOOST_INCLUDE_PATH = "D:/Program Files/boost_1_78_0"
 
 # only support 64 at this time..
 bits = 64
@@ -105,7 +105,7 @@ env.Append(LIBS=[CPP_LIBRARY, MONGO_CXX_LIBPATH + '*.lib'])
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=['thirdparty/', 'src/'])
-env.Append(CPPPATH=[BOOST_INCLUDE_PATH])
+# env.Append(CPPPATH=[BOOST_INCLUDE_PATH])
 env.Append(CPPPATH=[MONGO_CXX_INCLUDE_PATH + 'bsoncxx/v_noabi/'])
 env.Append(CPPPATH=[MONGO_CXX_INCLUDE_PATH + 'mongocxx/v_noabi/'])
 

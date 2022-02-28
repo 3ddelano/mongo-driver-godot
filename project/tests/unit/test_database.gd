@@ -70,6 +70,44 @@ func run():
 	assert_eq(res[0]["get_collection"], value)
 
 
+	test("create collection", "with options capped, validator")
+	get_database("test").get_collection("test_col").drop()
+	collection = get_database("test").create_collection("test_col", {
+		capped = true,
+		size = 10000,
+		validationLevel = "strict",
+		validationAction = "error",
+		collation = {},
+		writeConcern = {},
+		comment = "hey testing comment",
+		validator = {_id = {"$eq": "baz"}}
+	})
+	print(collection)
+	
+	test("create_collection", "with option timeseries, expireInSeconds")
+	get_database("test").get_collection("test_col").drop()
+	collection = get_database("test").create_collection("test_col", {
+		timeseries = {
+			timeField = "created_date",
+			granularity = "seconds",
+		},
+		expireAfterSeconds = 10,
+		# autoIndexId = false,
+		# pipeline = [],
+	})
+	
+	res = collection.insert_one({
+		n = 2,
+		created_date = MongoGodot.Date("2022-02-28T01:11:18.965Z")
+	})
+	assert_typeof(res, TYPE_DICTIONARY)
+	assert_has(res, "inserted_count")
+	assert_eq(res["inserted_count"], 1)
+	assert_has(res, "inserted_id")
+	print()
+
+	return
+
 	test("run_command", "run count command")
 	res = get_database("test").run_command({
 		count = "test_col"

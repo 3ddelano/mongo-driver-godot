@@ -1,5 +1,5 @@
-#ifndef MONGOGODOTDRIVER_H
-#define MONGOGODOTDRIVER_H
+#ifndef MONGO_GODOT_DRIVER_H
+#define MONGO_GODOT_DRIVER_H
 
 #include <Godot.hpp>
 #include <Reference.hpp>

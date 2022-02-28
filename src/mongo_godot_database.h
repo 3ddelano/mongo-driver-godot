@@ -1,5 +1,5 @@
-#ifndef MONGOGODOTDATABASE_H
-#define MONGOGODOTDATABASE_H
+#ifndef MONGO_GODOT_DATABASE_H
+#define MONGO_GODOT_DATABASE_H
 
 #include <Godot.hpp>
 #include <Reference.hpp>
@@ -22,7 +22,7 @@ class MongoGodotDatabase : public Reference {
     mongocxx::database _database;
 
   public:
-    void _init(); // Called by Godot
+    void _init(){}; // Called by Godot
     static void _register_methods();
 
     MongoGodotDatabase(){};
@@ -61,6 +61,8 @@ class MongoGodotDatabase : public Reference {
      * @return True or error Dictionary
      */
     Variant drop();
+
+    Variant create_collection(String name, Dictionary options = Dictionary());
 };
 
 #endif

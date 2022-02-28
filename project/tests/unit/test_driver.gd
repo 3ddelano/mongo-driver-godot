@@ -32,7 +32,7 @@ func run():
 	connection = driver.connect_to_server(Env.get_var("MONGODB_URI"))
 	assert_typeof(connection, TYPE_OBJECT)
 	# Try method on connection object
-	res = connection.get_database_names()
+	res = connection.get_database_names({}) # must pass empty Dictionary
 	assert_typeof(res, TYPE_ARRAY)
 	assert_has(res, "local")
 	assert_has(res, "admin")

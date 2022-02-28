@@ -54,7 +54,9 @@
     {
       "match": "\\.gd$",
       "command": "cls && cd ${workspaceFolder} && run_tests",
-      "runIn": "terminal"
+      "runIn": "terminal",
+      "runningStatusMessage": "Running gdscript tests",
+      "finishStatusMessage": "Finished running gdscript tests"
     }
   ],
   "restructuredtext.languageServer.disabled": true

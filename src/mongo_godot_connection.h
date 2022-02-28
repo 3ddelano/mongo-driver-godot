@@ -1,5 +1,5 @@
-#ifndef MONGOGODOTCONNECTION_H
-#define MONGOGODOTCONNECTION_H
+#ifndef MONGO_GODOT_CONNECTION_H
+#define MONGO_GODOT_CONNECTION_H
 
 #include <Godot.hpp>
 #include <Reference.hpp>
@@ -15,7 +15,7 @@ using namespace godot;
 class MongoGodotConnection : public Reference {
     GODOT_CLASS(MongoGodotConnection, Reference)
   private:
-    mongocxx::client* _client;
+    mongocxx::client* _client = nullptr;
 
   public:
     void _init(){}; // Called by Godot
@@ -35,7 +35,7 @@ class MongoGodotConnection : public Reference {
      * @param filter Optional query expression to filter the returned database names.
      * @return Array of database names or error Dictionary
      */
-    Variant MongoGodotConnection::get_database_names(Dictionary filter = {});
+    Variant MongoGodotConnection::get_database_names(const Dictionary& filter = Dictionary());
 
     /**
      * @brief Obtains a database thats represents a logical grouping of collections on a MongoDB server

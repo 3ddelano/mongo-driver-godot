@@ -38,7 +38,7 @@ func _ready() -> void:
 	print("running")
 	print(connection.get_database("big").get_collection("items").find({}, {
 		allow_disk_use = true,
-		allow_partial_results = false,
+		allow_partial_results = true,
 		batch_size = 50,
 		collation = {},
 		cursor_type = MongoGodot.FindOptions.CursorType.NON_TAILABLE,
