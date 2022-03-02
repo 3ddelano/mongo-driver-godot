@@ -1,27 +1,19 @@
 extends BaseTest
 
-var driver
+var driver: MongoDriver
 
 func _init():
-	driver = MongoGodotDriver.new()
+	driver = MongoDriver.new()
 
 func get_connection():
 	return driver.connect_to_server(Env.get_var("MONGODB_URI"))
 
 func run():
 	describe("Connection")
-	var connection
+	var connection: MongoConnection
 	var names
 	var res
 	var test_db
-
-	test("default constructed connection cannot call methods")
-	connection = MongoGodotConnection.new()
-	print("gd1")
-	res = connection.get_database_names({})
-	print("gd2")
-	print(res)
-	assert_is_mongo_error(res)
 
 	test("get_database_names", "no filter")
 	connection = get_connection()
@@ -33,7 +25,7 @@ func run():
 
 	test("get_database_names", "empty filter")
 	connection = get_connection()
-	names = connection.get_database_names()
+	names = connection.get_database_names({})
 	assert_typeof(names, TYPE_ARRAY)
 	assert_has(names, "local")
 	assert_has(names, "admin")
@@ -42,7 +34,7 @@ func run():
 	test("get_database_names", "filter on 'name' with regex")
 	connection = get_connection()
 	names = connection.get_database_names({
-		name = MongoGodot.Regex("(admin|local)")
+		name = Mongo.Regex("(admin|local)")
 	})
 	assert_typeof(names, TYPE_ARRAY)
 	assert_size(names, 2)
@@ -54,6 +46,7 @@ func run():
 	connection = get_connection()
 	test_db = connection.get_database("test")
 	assert_typeof(test_db, TYPE_OBJECT)
+	test_db.drop()
 	# Try method on database object
 	res = test_db.get_collection("test_col").insert_one({
 		auto_test = 1

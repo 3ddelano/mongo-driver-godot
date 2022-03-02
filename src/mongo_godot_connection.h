@@ -14,21 +14,7 @@ using namespace godot;
 /// Represents a connection to a MongoDB server.
 class MongoGodotConnection : public Reference {
     GODOT_CLASS(MongoGodotConnection, Reference)
-  private:
-    mongocxx::client* _client = nullptr;
-
   public:
-    void _init(){}; // Called by Godot
-    static void _register_methods();
-
-    MongoGodotConnection(){};
-    ~MongoGodotConnection() {
-        delete _client;
-    };
-
-    // Actual methods
-    void _set_client(mongocxx::client* client);
-
     /**
      * @brief Gets the names of the databases on the server.
      *
@@ -43,7 +29,19 @@ class MongoGodotConnection : public Reference {
      * @param name Name of the database to get
      * @return The MongoGodotDatabase or error Dictionary
      */
-    Variant get_database(String name = "");
+    Variant get_database(const String& name);
+
+    void _set_client(mongocxx::client* client);
+
+    void _init(){}; // Called by Godot
+    static void _register_methods();
+    MongoGodotConnection(){};
+    ~MongoGodotConnection() {
+        delete _client;
+    };
+
+  private:
+    mongocxx::client* _client = nullptr;
 };
 
 #endif

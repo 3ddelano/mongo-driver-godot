@@ -3,7 +3,6 @@
 [ext_resource path="res://addons/mongo-godot-driver/libmongo-godot-driver.gdnlib" type="GDNativeLibrary" id=1]
 
 [resource]
-resource_name = "MongoGodotCollection"
-class_name = "MongoGodotCollection"
+resource_name = "MongoGodotConnection"
+class_name = "MongoGodotConnection"
 library = ExtResource( 1 )
-script_class_name = "MongoGodotCollection"

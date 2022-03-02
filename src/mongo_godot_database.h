@@ -18,19 +18,8 @@ using namespace godot;
 /// Represents a MongoDB database
 class MongoGodotDatabase : public Reference {
     GODOT_CLASS(MongoGodotDatabase, Reference)
-  private:
-    mongocxx::database _database;
 
   public:
-    void _init(){}; // Called by Godot
-    static void _register_methods();
-
-    MongoGodotDatabase(){};
-    ~MongoGodotDatabase(){};
-
-    // Actual methods
-    void _set_database(mongocxx::database p_database);
-
     /**
      * @brief Gets the names of the collections in this database.
      *
@@ -48,6 +37,15 @@ class MongoGodotDatabase : public Reference {
     Variant get_collection(String name);
 
     /**
+     * @brief Explicitly creates a collection in this database with the specified options.
+     *
+     * @param name Name of the new collection
+     * @param options The options for the new collection
+     * @return The newly created MongoGodotCollection or error Dictionary
+     */
+    Variant create_collection(String name, Dictionary options = Dictionary());
+
+    /**
      * @brief Runs a command against this database.
      *
      * @param command Dictionary representing the command to be run
@@ -62,7 +60,15 @@ class MongoGodotDatabase : public Reference {
      */
     Variant drop();
 
-    Variant create_collection(String name, Dictionary options = Dictionary());
+    void _set_database(mongocxx::database p_database);
+
+    void _init(){}; // Called by Godot
+    static void _register_methods();
+    MongoGodotDatabase(){};
+    ~MongoGodotDatabase(){};
+
+  private:
+    mongocxx::database _database;
 };
 
 #endif

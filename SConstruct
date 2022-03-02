@@ -88,6 +88,7 @@ elif env['platform'] == "windows":
         env.Append(CCFLAGS=['-O2', '-EHsc', '-DNDEBUG', '-MD'])
     # Set the correct Discord GameSDK library
 if env['target'] in ('debug', 'd'):
+    env.Append(CCFLAGS="/D _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS")
     CPP_LIBRARY += '.debug'
 else:
     CPP_LIBRARY += '.release'

@@ -9,3 +9,6 @@
 [submodule "thirdparty/mongo-c-driver"]
 	path = thirdparty/mongo-c-driver
 	url = https://github.com/mongodb/mongo-c-driver.git
+[submodule "docs/gdscript-docs-maker"]
+	path = docs/gdscript-docs-maker
+	url = https://github.com/GDQuest/gdscript-docs-maker.git

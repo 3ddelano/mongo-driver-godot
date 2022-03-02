@@ -10,12 +10,13 @@ var TESTS_PATH = "res://tests/unit/test_index.gd"
 var TEST_FILE_PREFIX = "test_"
 var TEST_FILE_SUFFIX = ".gd"
 
-var _dirs = [TESTS_PATH]
+var _dirs = [TESTS_PATH.get_base_dir()]
 var _tests = []
 
 var test_mode = TestMode.SINGLE_FILE
 
 func _ready() -> void:
+	TestUtils.start_epoch = OS.get_ticks_msec()
 
 	if test_mode == TestMode.SINGLE_FILE:
 		run_test(TESTS_PATH)
@@ -23,6 +24,9 @@ func _ready() -> void:
 		run_tests()
 
 	print("\nRan %s describes with %s tests" % [str(TestUtils.describe_count), str(TestUtils.test_count)])
+	var end_epoch = OS.get_ticks_msec()
+	var duration = end_epoch - TestUtils.start_epoch
+	print("Took %s seconds" % str(duration * 0.001))
 
 	if OS.get_environment("QUIT_ON_TEST_COMPLETE"):
 		get_tree().quit()

@@ -1,11 +1,13 @@
 extends BaseTest
 
-var driver
-var connection
+var driver: MongoDriver
+var connection: MongoConnection
+var database: MongoDatabase
 
 func _init():
-	driver = MongoGodotDriver.new()
+	driver = MongoDriver.new()
 	connection = get_connection()
+	database = get_database("test")
 
 func get_connection():
 	return driver.connect_to_server(Env.get_var("MONGODB_URI"))
@@ -16,7 +18,6 @@ func get_database(name):
 func run():
 	describe("Database")
 
-	var database
 	var collection
 	var res
 	var names
@@ -24,26 +25,33 @@ func run():
 	var before
 	var after
 
-	test("default constructed database cannot call methods")
-	database = MongoGodotDatabase.new()
-	res = database.get_collection_names()
-	assert_is_mongo_error(res)
+	collection = database.get_collection("test_col")
 
 
 	test("get_collection_names", "no filter")
-	names = get_database("test").get_collection_names()
+	database.drop()
+	database.create_collection("hello")
+	database.create_collection("world")
+	names = database.get_collection_names()
 	assert_typeof(names, TYPE_ARRAY)
+	assert_size(names, 2)
+	assert_has(names, "hello")
+	assert_has(names, "world")
 
 
 	test("get_collection_names", "empty filter")
-	names = get_database("test").get_collection_names({})
+	database.drop()
+	database.create_collection("hi")
+	database.create_collection("hi2")
+	database.create_collection("hi3")
+	names = database.get_collection_names({})
 	assert_typeof(names, TYPE_ARRAY)
+	assert_size(names, 3)
 
 
 	test("get_collection_names", "filter on name with regex")
-	connection = get_connection()
 	names = connection.get_database_names({
-		name = MongoGodot.Regex("(admin|local)")
+		name = Mongo.Regex("(admin|local)")
 	})
 	assert_typeof(names, TYPE_ARRAY)
 	assert_eq(names.size(), 2)
@@ -51,9 +59,9 @@ func run():
 	assert_has(names, "local")
 
 
-	test("get_collection", "get test collection and ensure only 1 document")
-	get_database("test").get_collection("test_col").drop()
-	collection = get_database("test").get_collection("test_col")
+	test("get_collection", "get collection and ensure only 1 document")
+	database.drop()
+	collection = database.get_collection("test_col")
 	assert_typeof(collection, TYPE_OBJECT)
 	# Try method on collection object
 	randomize()
@@ -71,8 +79,8 @@ func run():
 
 
 	test("create collection", "with options capped, validator")
-	get_database("test").get_collection("test_col").drop()
-	collection = get_database("test").create_collection("test_col", {
+	database.drop()
+	collection = database.create_collection("test_col", {
 		capped = true,
 		size = 10000,
 		validationLevel = "strict",
@@ -82,43 +90,43 @@ func run():
 		comment = "hey testing comment",
 		validator = {_id = {"$eq": "baz"}}
 	})
-	print(collection)
-	
-	test("create_collection", "with option timeseries, expireInSeconds")
-	get_database("test").get_collection("test_col").drop()
-	collection = get_database("test").create_collection("test_col", {
+	assert_typeof(collection, TYPE_OBJECT)
+	res = database.get_collection_names()
+	assert_eq(res[0], "test_col")
+
+
+	test("create collection", "with option timeseries, expireInSeconds")
+	database.drop()
+	collection = database.create_collection("test_col", {
 		timeseries = {
 			timeField = "created_date",
 			granularity = "seconds",
 		},
 		expireAfterSeconds = 10,
-		# autoIndexId = false,
-		# pipeline = [],
 	})
-	
 	res = collection.insert_one({
 		n = 2,
-		created_date = MongoGodot.Date("2022-02-28T01:11:18.965Z")
+		created_date = Mongo.Date("2022-02-28T01:11:18.965Z")
 	})
 	assert_typeof(res, TYPE_DICTIONARY)
 	assert_has(res, "inserted_count")
 	assert_eq(res["inserted_count"], 1)
 	assert_has(res, "inserted_id")
-	print()
 
-	return
 
 	test("run_command", "run count command")
-	res = get_database("test").run_command({
+	database.drop()
+	collection.insert_many([{a = 1}, {a = 2}, {a = 3}])
+	res = database.run_command({
 		count = "test_col"
 	})
 	assert_typeof(res, TYPE_DICTIONARY)
 	assert_eq(res["ok"], 1)
-	assert_eq(res["n"], 1)
+	assert_eq(res["n"], 3)
 
 
 	test("run_command", "run hello command")
-	res = get_database("test").run_command({
+	res = database.run_command({
 		hello = 1
 	})
 	assert_typeof(res, TYPE_DICTIONARY)
@@ -128,9 +136,9 @@ func run():
 
 
 	test("drop", "drop test database")
-	before = get_database("test").get_collection_names().size()
-	res = get_database("test").drop()
-	after = get_database("test").get_collection_names().size()
+	before = database.get_collection_names().size()
+	res = database.drop()
+	after = database.get_collection_names().size()
 	assert_typeof(res, TYPE_BOOL)
 	assert_eq(res, true)
 	assert_ne(before, 0)

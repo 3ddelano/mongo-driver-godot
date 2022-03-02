@@ -1,4 +1,4 @@
-class_name MongoGodot
+class_name Mongo
 extends Reference
 
 class FindOneOptions:

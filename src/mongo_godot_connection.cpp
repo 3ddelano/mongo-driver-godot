@@ -34,7 +34,7 @@ Variant MongoGodotConnection::get_database(String database_name) {
     if (database_name.length() == 0) {
         return ERR_DICT("Database name is empty.");
     }
-    if (!_client) {
+    if (_client == nullptr || !_client) {
         return ERR_DICT("Not connected to Mongo server");
     }
     try {

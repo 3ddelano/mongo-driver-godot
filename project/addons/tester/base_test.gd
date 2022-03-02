@@ -53,6 +53,13 @@ func assert_has(thing, what):
 	t("Expected %s to have %s" % [str(thing), str(what)])
 	return _randx123xyz[""]
 
+func assert_not_has(thing, what):
+	if not thing.has(what):
+		return
+
+	t("Expected %s to not have %s" % [str(thing), str(what)])
+	return _randx123xyz[""]
+
 func assert_size(thing, size):
 	if thing.size() == size:
 		return

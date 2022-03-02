@@ -1,6 +1,6 @@
 extends Control
 
-onready var mongo = MongoGodotDriver.new()
+onready var mongo = Mongo.Driver.new()
 
 
 func _ready() -> void:
@@ -13,35 +13,46 @@ func _ready() -> void:
 #	print(connection.get_database("admin").run_command({
 #		listDatabases = 1,
 #		filter = {
-#			sizeOnDisk = MongoGodot.Lt(40960)
+#			sizeOnDisk = Mongo.Lt(40960)
 #		}
 #	}))
-	var firstDatabase = connection.get_database("firstDatabase")
-	var hello = connection.get_database("hello")
-	var cakes = hello.get_collection("Cakes")
-	var bikes = hello.get_collection("bikes")
-	var users = firstDatabase.get_collection("Users")
+#	var firstDatabase = connection.get_database("firstDatabase")
+#	var hello = connection.get_database("hello")
+#	var cakes = hello.get_collection("Cakes")
+#	var bikes = hello.get_collection("bikes")
+#	var users = firstDatabase.get_collection("Users")
 
 #	randomize()
 #	print(users.find_one_and_update({}, {
-#		reg = MongoGodot.Regex("^(a|b)"),
+#		reg = Mongo.Regex("^(a|b)"),
 #		val = rand_range(-1000,1000)
 #	}, {
 #		collation = { locale = "fr", strength = 1 },
 #		bypass_document_valiation = true,
 #		projection = {},
-#		return_document = MongoGodot.FindOneOptions.ReturnDocument.AFTER,
+#		return_document = Mongo.FindOneOptions.ReturnDocument.AFTER,
 #		sort = {},
 #		upsert = true,
 #		array_filters = []
 #	}))
 	print("running")
+	var database = connection.get_database("test")
+	var collection = database.get_collection("test_col")
+	collection.drop()
+	collection.insert_one({_id = 1})
+	var res = collection.update_one({_id = 1},
+		Mongo.Set({changed = true}),
+	{
+		upsert = true
+	})
+	print(res)
+	return
 	print(connection.get_database("big").get_collection("items").find({}, {
 		allow_disk_use = true,
 		allow_partial_results = true,
 		batch_size = 50,
 		collation = {},
-		cursor_type = MongoGodot.FindOptions.CursorType.NON_TAILABLE,
+		cursor_type = Mongo.FindOptions.CursorType.NON_TAILABLE,
 		hint = "ahe",
 		limit = 2,
 		max = {},
@@ -60,7 +71,7 @@ func _ready() -> void:
 		allow_partial_results = true,
 		batch_size = 15,
 		collation = {},
-		cursor_type = MongoGodot.FindOptions.CursorType.NON_TAILABLE,
+		cursor_type = Mongo.FindOptions.CursorType.NON_TAILABLE,
 		hint = "ahaaaaaaae",
 		limit = 10,
 		max = {},
@@ -88,7 +99,7 @@ func _ready() -> void:
 
 	# Get Collection
 #	var collection = mongo.get_collection("firstDatabase", "Users", {
-#		_id = MongoGodot.ObjectId("621322cfd00700000a003bc2")
+#		_id = Mongo.ObjectId("621322cfd00700000a003bc2")
 #	})
 #	print(collection.size())
 #	print(collection)
@@ -130,7 +141,7 @@ func _ready() -> void:
 
 	# Find one and replace
 #	print(users.find_one_and_replace({
-#		"_id": MongoGodot.ObjectId("6213c5f01a7a000051006492")
+#		"_id": Mongo.ObjectId("6213c5f01a7a000051006492")
 #	}, {
 #		abde = "feggggg"
 #	}))
@@ -138,9 +149,9 @@ func _ready() -> void:
 
 	# Find one and update
 #	print(users.find_one_and_update({
-#		"_id": MongoGodot.ObjectId("6213c5f01a7a000051006492")
+#		"_id": Mongo.ObjectId("6213c5f01a7a000051006492")
 #	},
-#		MongoGodot.Set({
+#		Mongo.Set({
 #			abde = "1234"
 #		})
 #	))
@@ -176,7 +187,7 @@ func _ready() -> void:
 #		"$lt": {
 #			n = 5
 #		}
-#	}, MongoGodot.Set({
+#	}, Mongo.Set({
 #		bc = "151515151"
 #	})))
 
@@ -189,8 +200,8 @@ func _ready() -> void:
 
 #	print("-")
 #	print(bikes.update_many({
-#		n = MongoGodot.Lt(5)
-#	}, MongoGodot.Set({
+#		n = Mongo.Lt(5)
+#	}, Mongo.Set({
 #		n = -5
 #	})))
 
