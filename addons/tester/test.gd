@@ -6,14 +6,14 @@ enum TestMode {
 	RECURSIVE_DIRECTORY
 }
 
-var TESTS_PATH = "res://tests/unit/test_connection.gd"
+var TESTS_PATH = "res://tests/unit/"
 var TEST_FILE_PREFIX = "test_"
 var TEST_FILE_SUFFIX = ".gd"
 
 var _dirs = [TESTS_PATH.get_base_dir()]
 var _tests = []
 
-var test_mode = TestMode.SINGLE_FILE
+var test_mode = TestMode.RECURSIVE_DIRECTORY
 
 func _ready() -> void:
 	TestUtils.start_epoch = OS.get_ticks_msec()

@@ -8,7 +8,7 @@ echo Building using %build_target% compiler and %target% target
 
 mkdir "bin/mongo-c-driver"
 mkdir "bin/mongo-cxx-driver"
-mkdir "project/addons/mongo-driver-godot/bin/win64"
+mkdir "addons/mongo-driver-godot/bin/win64"
 
 pushd %CD%
 cd "bin/mongo-c-driver"
@@ -19,7 +19,7 @@ cd "bin/mongo-cxx-driver"
 set bin_mongo_cxx_driver_dir=%CD%
 popd
 pushd %CD%
-cd project/addons/mongo-driver-godot/bin/win64
+cd addons/mongo-driver-godot/bin/win64
 set project_bin_win_dir=%CD%
 popd
 

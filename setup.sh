@@ -6,7 +6,7 @@ echo Building using "$build_target" compiler and $TARGET target
 
 mkdir -p bin/mongo-c-driver
 mkdir -p bin/mongo-cxx-driver
-mkdir -p project/addons/mongo-driver-godot/bin/linux
+mkdir -p mongo-driver-godot/bin/linux
 
 pushd $(pwd)
 cd "bin/mongo-c-driver"
@@ -17,7 +17,7 @@ cd "bin/mongo-cxx-driver"
 bin_mongo_cxx_driver_dir=$(pwd)
 popd
 pushd $(pwd)
-cd project/addons/mongo-driver-godot/bin/win64
+cd addons/mongo-driver-godot/bin/win64
 project_bin_win_dir=$(pwd)
 popd
 
