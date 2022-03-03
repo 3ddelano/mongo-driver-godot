@@ -1,11 +1,10 @@
 extends Control
 
-onready var mongo = Mongo.Driver.new()
+onready var mongo = MongoDriver.new()
 
 
 func _ready() -> void:
 	print("MAIN>Ready")
-
 	var connection = mongo.connect_to_server(Env.get_var("MONGODB_URI"))
 #	print(connection.get_database_names({
 #		name = "local"

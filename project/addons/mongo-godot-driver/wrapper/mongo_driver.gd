@@ -1,5 +1,7 @@
+# Handles making connections to a MongoDB server.
+# @category - Classes
 class_name MongoDriver
-extends "res://addons/mongo-godot-driver/wrapper/proxy.gd"
+extends "res://addons/mongo-godot-driver/proxy.gd"
 
 func connect_to_server(uri: String):
 	var ret = _call("connect_to_server", [uri])

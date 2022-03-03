@@ -1,5 +1,7 @@
+# Represents a server side document grouping within a MongoDB database.
+# @category - Classes
 class_name MongoCollection
-extends "res://addons/mongo-godot-driver/wrapper/proxy.gd"
+extends "res://addons/mongo-godot-driver/proxy.gd"
 
 func get_collection_names(filter = {}):
 	return _call("get_collection_names", [filter])

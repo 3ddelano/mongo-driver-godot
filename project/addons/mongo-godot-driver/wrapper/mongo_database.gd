@@ -1,5 +1,7 @@
+# Represents a server-side grouping of collections.
+# @category - Classes
 class_name MongoDatabase
-extends "res://addons/mongo-godot-driver/wrapper/proxy.gd"
+extends "res://addons/mongo-godot-driver/proxy.gd"
 
 func get_collection_names(filter = {}):
 	return _call("get_collection_names", [filter])
@@ -23,6 +25,8 @@ func create_collection(name:String, options = {}):
 		# Return a Mongo.Collection wrapping a MongoGodotCollection
 		return Collection.new(ret)
 	return ret
+
+
 
 # Wrapper
 const Collection = preload("res://addons/mongo-godot-driver/wrapper/mongo_collection.gd")

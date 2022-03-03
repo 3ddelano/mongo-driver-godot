@@ -12,3 +12,6 @@
 [submodule "docs/gdscript-docs-maker"]
 	path = docs/gdscript-docs-maker
 	url = https://github.com/GDQuest/gdscript-docs-maker.git
+[submodule "docs/site/themes/hugo-theme-learn"]
+	path = docs/site/themes/hugo-theme-learn
+	url = https://github.com/matcornic/hugo-theme-learn.git

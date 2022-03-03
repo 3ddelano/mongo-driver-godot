@@ -1,5 +1,7 @@
+# Represents the indexes on a MongoDB collection.
+# @category - Classes
 class_name MongoIndex
-extends "res://addons/mongo-godot-driver/wrapper/proxy.gd"
+extends "res://addons/mongo-godot-driver/proxy.gd"
 
 func get_database_names(filter := {}):
 	return _call("get_database_names", [filter])

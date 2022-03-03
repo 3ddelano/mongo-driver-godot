@@ -1,3 +1,5 @@
+# Base class with helper functions for MongoDB
+# @category - Classes
 class_name Mongo
 extends Reference
 
@@ -13,6 +15,10 @@ class FindOptions:
 		TAILABLE,
 		TAILABLE_AWAIT
 	}
+
+static func is_error(obj):
+	return typeof(obj) == TYPE_DICTIONARY and obj.has("MongoGodotError")
+
 
 # ----- Operators -----
 

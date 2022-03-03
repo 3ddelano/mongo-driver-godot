@@ -16,7 +16,7 @@ using namespace godot;
         return ERR_DICT("Index not setup");                                                                                 \
     }
 
-/// Handles making connections to a MongoDB server.
+/// Represents the indexes on a MongoDB collection.
 class MongoGodotIndex : public Reference {
     GODOT_CLASS(MongoGodotIndex, Reference)
   public:
