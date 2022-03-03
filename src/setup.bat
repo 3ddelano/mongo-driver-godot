@@ -2,9 +2,9 @@
 title Setup for mongo-driver-godot
 setlocal ENABLEDELAYEDEXPANSION
 
-set build_target="Visual Studio 16 2019"
-set target="release"
-echo Building using %build_target% compiler and %target% target
+set BUILD_TARGET="Visual Studio 16 2019"
+set TARGET="release"
+echo Building using %BUILD_TARGET% compiler and %TARGET% target
 
 mkdir "bin/mongo-c-driver"
 mkdir "bin/mongo-cxx-driver"
@@ -43,10 +43,10 @@ mkdir cmake-build
 cd cmake-build
 set mongoc_target="Release"
 if %TARGET%=="debug" (set mongoc_target="Debug")
-cmake -G %build_target% -DENABLE_EXAMPLES=OFF -DENABLE_TESTS=OFF -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DCMAKE_BUILD_TYPE=%mongoc_target% -DCMAKE_INSTALL_PREFIX=%bin_mongo_c_driver_dir% -DCMAKE_PREFIX_PATH=%bin_mongo_c_driver_dir% ..
+cmake -G %BUILD_TARGET% -DENABLE_EXAMPLES=OFF -DENABLE_TESTS=OFF -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DCMAKE_BUILD_TYPE=%mongoc_target% -DCMAKE_INSTALL_PREFIX=%bin_mongo_c_driver_dir% -DCMAKE_PREFIX_PATH=%bin_mongo_c_driver_dir% ..
 set mongoc_config_type="RelWithDebInfo"
 if %TARGET%=="debug" (set mongoc_config_type="Debug")
-cmake --build . --config MinSizeRel --target install
+cmake --build . --config %mongoc_config_type% --target install
 popd
 
 
@@ -57,7 +57,7 @@ pushd %CD%
 cd thirdparty/mongo-cxx-driver/build
 set mongocxx_target="Release"
 if %TARGET%=="debug" (set mongocxx_target="Debug")
-cmake -G %build_target% -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_FLAGS="/Zc:__cplusplus" -DENABLE_TESTS=OFF -DCMAKE_BUILD_TYPE=%mongocxx_target% -DLIBMONGOC_DIR==%bin_mongo_c_driver_dir% -DLIBBSON_DIR==%bin_mongo_c_driver_dir% -DCMAKE_INSTALL_PREFIX=%bin_mongo_cxx_driver_dir% ..
+cmake -G %BUILD_TARGET% -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_FLAGS="/Zc:__cplusplus" -DENABLE_TESTS=OFF -DCMAKE_BUILD_TYPE=%mongocxx_target% -DLIBMONGOC_DIR==%bin_mongo_c_driver_dir% -DLIBBSON_DIR==%bin_mongo_c_driver_dir% -DCMAKE_INSTALL_PREFIX=%bin_mongo_cxx_driver_dir% ..
 set mongocxx_config_type="RelWithDebInfo"
 if %TARGET%=="debug" (set mongocxx_config_type="Debug")
 cmake --build . --config %mongocxx_config_type% --target install

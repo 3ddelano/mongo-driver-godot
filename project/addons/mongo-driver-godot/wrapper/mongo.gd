@@ -490,3 +490,6 @@ static func SetField(val) -> Dictionary:
 #	return {
 #		"$date": "%s-%s-%sT%s:%s:%s+00:00" % [str(datetime.year).pad_zeros(4), str(datetime.month).pad_zeros(2), str(datetime.day).pad_zeros(2), str(datetime.hour).pad_zeros(2), str(datetime.minute).pad_zeros(2), str(datetime.second).pad_zeros(2)]
 #	}
+
+func _ready() -> void:
+	print(get_script().get_path())

@@ -6,7 +6,7 @@ enum TestMode {
 	RECURSIVE_DIRECTORY
 }
 
-var TESTS_PATH = "res://tests/unit/test_driver.gd"
+var TESTS_PATH = "res://tests/unit/test_connection.gd"
 var TEST_FILE_PREFIX = "test_"
 var TEST_FILE_SUFFIX = ".gd"
 

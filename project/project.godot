@@ -14,44 +14,38 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/tester/base_test.gd"
 }, {
-"base": "Node2D",
-"class": "HelloWorldTesting",
-"language": "GDScript",
-"path": "res://addons/mongo-godot-driver/wrapper/test_docs.gd"
-}, {
 "base": "Reference",
 "class": "Mongo",
 "language": "GDScript",
-"path": "res://addons/mongo-godot-driver/wrapper/mongo.gd"
+"path": "res://addons/mongo-driver-godot/wrapper/mongo.gd"
 }, {
 "base": "Reference",
 "class": "MongoCollection",
 "language": "GDScript",
-"path": "res://addons/mongo-godot-driver/wrapper/mongo_collection.gd"
+"path": "res://addons/mongo-driver-godot/wrapper/mongo_collection.gd"
 }, {
 "base": "Reference",
 "class": "MongoConnection",
 "language": "GDScript",
-"path": "res://addons/mongo-godot-driver/wrapper/mongo_connection.gd"
+"path": "res://addons/mongo-driver-godot/wrapper/mongo_connection.gd"
 }, {
 "base": "Reference",
 "class": "MongoDatabase",
 "language": "GDScript",
-"path": "res://addons/mongo-godot-driver/wrapper/mongo_database.gd"
+"path": "res://addons/mongo-driver-godot/wrapper/mongo_database.gd"
 }, {
 "base": "Reference",
 "class": "MongoDriver",
 "language": "GDScript",
-"path": "res://addons/mongo-godot-driver/wrapper/mongo_driver.gd"
+"path": "res://addons/mongo-driver-godot/wrapper/mongo_driver.gd"
 }, {
 "base": "Reference",
 "class": "MongoIndex",
 "language": "GDScript",
-"path": "res://addons/mongo-godot-driver/wrapper/mongo_index.gd"
+"path": "res://addons/mongo-driver-godot/wrapper/mongo_index.gd"
 } ]
 _global_script_class_icons={
 "BaseTest": "",
-"HelloWorldTesting": "",
 "Mongo": "",
 "MongoCollection": "",
 "MongoConnection": "",
@@ -62,10 +56,10 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Mongo Godot Driver"
+config/name="Mongo Driver Godot"
 config/description="Unofficial MongoDB driver for Godot Engine 3.3"
 run/main_scene="res://Main.tscn"
-config/icon="res://addons/mongo-godot-driver/mongo_godot_driver_logo.png"
+config/icon="res://addons/mongo-driver-godot/mongo_godot_driver_logo.png"
 
 [autoload]
 

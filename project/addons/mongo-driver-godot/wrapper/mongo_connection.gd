@@ -1,7 +1,7 @@
 # Represents the indexes on a MongoDB collection.
 # @tags - MongoConnection, Class
 class_name MongoConnection
-extends "res://addons/mongo-godot-driver/proxy.gd"
+extends "res://addons/mongo-driver-godot/proxy.gd"
 
 # Gets the names of the databases on the server.
 # @param filter - Optional query expression to filter the returned database names
@@ -23,7 +23,7 @@ func get_database(name):
 
 # Wrapper
 # @hidden
-const Database = preload("res://addons/mongo-godot-driver/wrapper/mongo_database.gd")
+const Database = preload("res://addons/mongo-driver-godot/wrapper/mongo_database.gd")
 
 # @hidden
 func _init(obj).(obj):

@@ -30,7 +30,7 @@ Variant MongoGodotConnection::get_database_names(const Dictionary& p_filter) {
     }
 }
 
-Variant MongoGodotConnection::get_database(String database_name) {
+Variant MongoGodotConnection::get_database(const String& database_name) {
     if (database_name.length() == 0) {
         return ERR_DICT("Database name is empty.");
     }

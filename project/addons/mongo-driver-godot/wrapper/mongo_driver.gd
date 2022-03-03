@@ -1,7 +1,7 @@
 # Handles making connections to a MongoDB server.
 # @tags - MongoDriver, Class
 class_name MongoDriver
-extends "res://addons/mongo-godot-driver/proxy.gd"
+extends "res://addons/mongo-driver-godot/proxy.gd"
 
 # Attempts to create a client connection to a MongoDB server.
 # @param uri - A MongoDB URI representing the connection parameters
@@ -17,10 +17,10 @@ func connect_to_server(uri: String):
 
 # Wrapper
 # @hidden
-const Connection = preload("res://addons/mongo-godot-driver/wrapper/mongo_connection.gd")
+const Connection = preload("res://addons/mongo-driver-godot/wrapper/mongo_connection.gd")
 
 # @hidden
-const MongoGodotDriverImpl = preload("res://addons/mongo-godot-driver/native/mongo_godot_driver.gdns")
+const MongoGodotDriverImpl = preload("res://addons/mongo-driver-godot/native/mongo_godot_driver.gdns")
 
 # @hidden
 func _init(obj = null).(MongoGodotDriverImpl.new()):

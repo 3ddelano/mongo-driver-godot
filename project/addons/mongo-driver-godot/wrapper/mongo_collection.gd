@@ -1,7 +1,7 @@
 # Represents a server side document grouping within a MongoDB database.
 # @tags - MongoCollection, Class
 class_name MongoCollection
-extends "res://addons/mongo-godot-driver/proxy.gd"
+extends "res://addons/mongo-driver-godot/proxy.gd"
 
 func get_collection_names(filter := {}):
 	return _call("get_collection_names", [filter])
@@ -78,7 +78,7 @@ func get_distinct(name: String, filter := {}, options = {}):
 
 # Wrapper
 # @hidden
-const Index = preload("res://addons/mongo-godot-driver/wrapper/mongo_index.gd")
+const Index = preload("res://addons/mongo-driver-godot/wrapper/mongo_index.gd")
 
 # @hidden
 func _init(obj).(obj):

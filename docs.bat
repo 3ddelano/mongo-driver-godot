@@ -1,5 +1,5 @@
 @echo off
-title Generate docs for mongo-godot-driver
+title Generate docs for mongo-driver-godot
 
 @REM needs godot to be available in PATH
 

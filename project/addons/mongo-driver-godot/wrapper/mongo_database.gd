@@ -1,7 +1,7 @@
 # Represents a server-side grouping of collections.
 # @tags - MongoDatabase, Class
 class_name MongoDatabase
-extends "res://addons/mongo-godot-driver/proxy.gd"
+extends "res://addons/mongo-driver-godot/proxy.gd"
 
 # Gets the names of the collections in this database.
 # @param filter - Optional query expression to filter the returned collection names.
@@ -47,7 +47,7 @@ func drop():
 
 # Wrapper
 # @hidden
-const Collection = preload("res://addons/mongo-godot-driver/wrapper/mongo_collection.gd")
+const Collection = preload("res://addons/mongo-driver-godot/wrapper/mongo_collection.gd")
 
 # @hidden
 func _init(obj).(obj):

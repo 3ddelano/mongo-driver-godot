@@ -17,9 +17,9 @@ opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'",
          '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
 opts.Add(PathVariable('target_path',
-         'The path where the lib is installed.', 'project/addons/mongo-godot-driver/bin/'))  # Keep the library in the root of the project as a godot bug workaround
+         'The path where the lib is installed.', 'project/addons/mongo-driver-godot/bin/'))  # Keep the library in the root of the project as a godot bug workaround
 opts.Add(PathVariable('target_name', 'The library name.',
-         'libmongo-godot-driver', PathVariable.PathAccept))
+         'libmongo-driver-godot', PathVariable.PathAccept))
 
 # Local dependency paths, adapt them to your setup
 GODOT_HEADERS_PATH = "thirdparty/godot-cpp/godot-headers/"
