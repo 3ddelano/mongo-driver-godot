@@ -58,7 +58,9 @@ jobs:
           cmake -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DCMAKE_BUILD_TYPE=Release ..
           cmake --build .
           sudo cmake --build . --target install
-          cd ../../../
+          cd ../../
+
+          cd mongo-cxx-driver
 
           scons platform=linux target=${{env.TARGET}} target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}}
       - name: Upload Artifact
