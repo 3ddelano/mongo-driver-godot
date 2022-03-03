@@ -1,0 +1,98 @@
+site_name: Mongo Driver Godot Docs
+site_description: "Unofficial MongoDB driver for Godot Engine 3.3"
+site_author: "Delano Lourenco"
+repo_url: "https://github.com/3ddelano/mongo-driver-godot"
+copyright: Copyright &copy; 2022 Delano Lourenco
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - How to Update: how-to-update.md
+  - Getting Started: getting-started.md
+  - Classes:
+      Mongo: ./classes/Mongo
+      MongoDriver: ./classes/MongoDriver
+      MongoConnection: ./classes/MongoConnection
+      MongoDatabase: ./classes/MongoDatabase
+      MongoCollection: ./classes/MongoCollection
+      MongoIndex: ./classes/MongoIndex
+theme:
+  name: "material"
+  language: "en"
+  # favicon: assets/favicon.png
+  static_templates:
+    - 404.html
+  features:
+    - navigation.tracking
+    - navigation.top
+    - navigation.expand
+    - search.highlight
+    - search.share
+    - search.suggest
+    - header.autohide
+  include_search_page: false
+  search_index_only: true
+  font:
+    text: Roboto
+    code: Roboto Mono
+  # favicon: assets/favicon.png
+  icon:
+    logo: material/library
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: light green
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: light green
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+
+extra_css:
+  - css/github-dark.min.css
+  - css/extra.css
+extra_javascript:
+  - js/highlight.min.js
+  - js/gdscript.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js
+  - js/extra.js
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/3ddelano
+      name: Github
+    - icon: fontawesome/brands/youtube
+      link: https://youtube.com/c/delanolourenco
+      name: Youtube
+markdown_extensions:
+  - meta
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - attr_list
+  - md_in_html
+  - tables
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - admonition
+  - toc:
+      title: On this page
+      permalink: true
+plugins:
+  # - tags:
+  - search:
+      separator: '[ \s\-\._]'
+  - minify:
+      minify_html: true
+      minify_js: true
+      minify_css: true
+  # - git-revision-date
+  - ezlinks:
+      warn_ambiguities: true
+      wikilinks: true

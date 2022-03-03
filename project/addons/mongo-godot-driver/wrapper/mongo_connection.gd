@@ -1,11 +1,17 @@
 # Represents the indexes on a MongoDB collection.
-# @category - Classes
+# @tags - MongoConnection, Class
 class_name MongoConnection
 extends "res://addons/mongo-godot-driver/proxy.gd"
 
+# Gets the names of the databases on the server.
+# @param filter - Optional query expression to filter the returned database names
+# @returns Array of database names or error Dictionary
 func get_database_names(filter := {}):
 	return _call("get_database_names", [filter])
 
+# Obtains a database thats represents a logical grouping of collections on a MongoDB server
+# @param name - Name of the database to get
+# @returns The MongoGodotDatabase or error Dictionary
 func get_database(name):
 	var ret = _call("get_database", [name])
 	if typeof(ret) != TYPE_DICTIONARY:
@@ -16,7 +22,10 @@ func get_database(name):
 
 
 # Wrapper
+# @hidden
 const Database = preload("res://addons/mongo-godot-driver/wrapper/mongo_database.gd")
+
+# @hidden
 func _init(obj).(obj):
 	pass
 

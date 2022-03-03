@@ -1,5 +1,5 @@
 # Base class with helper functions for MongoDB
-# @category - Classes
+# @tags - Mongo, Class, Helper
 class_name Mongo
 extends Reference
 

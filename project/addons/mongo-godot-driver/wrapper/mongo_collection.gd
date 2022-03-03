@@ -1,24 +1,24 @@
 # Represents a server side document grouping within a MongoDB database.
-# @category - Classes
+# @tags - MongoCollection, Class
 class_name MongoCollection
 extends "res://addons/mongo-godot-driver/proxy.gd"
 
-func get_collection_names(filter = {}):
+func get_collection_names(filter := {}):
 	return _call("get_collection_names", [filter])
 
-func find(filter = {}, options = {}):
+func find(filter := {}, options = {}):
 	return _call("find", [filter, options])
 
-func find_one(filter = {}, options = {}):
+func find_one(filter := {}, options = {}):
 	return _call("find_one", [filter, options])
 
-func find_one_and_delete(filter = {}, options = {}):
+func find_one_and_delete(filter := {}, options = {}):
 	return _call("find_one_and_delete", [filter, options])
 
-func find_one_and_replace(filter = {}, doc = {}, options = {}):
+func find_one_and_replace(filter := {}, doc = {}, options = {}):
 	return _call("find_one_and_replace", [filter, doc, options])
 
-func find_one_and_update(filter = {}, doc = {}, options = {}):
+func find_one_and_update(filter := {}, doc = {}, options = {}):
 	return _call("find_one_and_update", [filter, doc, options])
 
 func insert_one(doc = {}, options = {}):
@@ -70,14 +70,17 @@ func get_indexes():
 func get_indexes_list():
 	return _call("get_indexes_list", [])
 
-func get_distinct(name: String, filter = {}, options = {}):
+func get_distinct(name: String, filter := {}, options = {}):
 	return _call("get_distinct", [name, filter, options])
 
 
 
 
 # Wrapper
+# @hidden
 const Index = preload("res://addons/mongo-godot-driver/wrapper/mongo_index.gd")
+
+# @hidden
 func _init(obj).(obj):
 	pass
 
