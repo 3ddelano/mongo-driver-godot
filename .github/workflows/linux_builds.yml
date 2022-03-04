@@ -51,6 +51,7 @@ jobs:
           scons platform=linux bits=64 target=${{env.TARGET}} generate_bindings=yes -j4
           cd ../
       - name: Installing mongo-c-driver
+        run: |
           cd mongo-c-driver
           # python build/calc_release_version.py > VERSION_CURRENT
           mkdir -v -p cmake-build
