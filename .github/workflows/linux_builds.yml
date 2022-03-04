@@ -57,12 +57,12 @@ jobs:
           echo Building mongo-c-driver
           echo ------------------------------
           cd mongo-c-driver
-          python build/calc_release_version.py > VERSION_CURRENT
+          # python build/calc_release_version.py > VERSION_CURRENT
           mkdir -v -p cmake-build
           cd cmake-build
-          cmake -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DCMAKE_BUILD_TYPE=Release -DENABLE_EXAMPLES=OFF -DENABLE_TESTS=OFF ..
-          cmake --build .
-          sudo cmake --build . --target install
+          # cmake -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DCMAKE_BUILD_TYPE=Release -DENABLE_EXAMPLES=OFF -DENABLE_TESTS=OFF ..
+          # cmake --build .
+          # sudo cmake --build . --target install
           cd ../../
 
 
