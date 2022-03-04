@@ -72,6 +72,11 @@ elif env['platform'] in ('x11', 'linux'):
         env.Append(CCFLAGS=['-fPIC', '-g3', '-Og', '-std=c++17'])
     else:
         env.Append(CCFLAGS=['-fPIC', '-g', '-O3', '-std=c++17'])
+    
+    env.Append(LIBPATH=['/usr/local/lib'])
+    env.Append(LIBS=['mongocxx.so', 'bsoncxx.so'])
+    env.Append(CPPPATH=['/usr/local/include/mongocxx/v_noabi/', '/usr/local/include/bsoncxx/v_noabi', '/usr/local/include/libmongoc-1.0', '/usr/local/include/libbson-1.0'])
+
 elif env['platform'] == "windows":
     env['target_path'] += 'win64/'
     CPP_LIBRARY += '.windows'
@@ -86,7 +91,12 @@ elif env['platform'] == "windows":
         env.Append(CCFLAGS=['-EHsc', '-D_DEBUG', '-MDd'])
     else:
         env.Append(CCFLAGS=['-O2', '-EHsc', '-DNDEBUG', '-MD'])
-    # Set the correct Discord GameSDK library
+
+    env.Append(LIBPATH=[CPP_BINDINGS_PATH + 'bin/', MONGO_CXX_LIBPATH])
+    env.Append(LIBS=[CPP_LIBRARY, MONGO_CXX_LIBPATH + '*.lib'])
+    env.Append(CPPPATH=[MONGO_CXX_INCLUDE_PATH + 'bsoncxx/v_noabi/'])
+    env.Append(CPPPATH=[MONGO_CXX_INCLUDE_PATH + 'mongocxx/v_noabi/'])
+
 if env['target'] in ('debug', 'd'):
     env.Append(CCFLAGS="/D _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS")
     CPP_LIBRARY += '.debug'
@@ -101,14 +111,11 @@ else:
 # make sure our binding library is properly includes
 env.Append(CPPPATH=['.', GODOT_HEADERS_PATH, CPP_BINDINGS_PATH + 'include/',
            CPP_BINDINGS_PATH + 'include/core/', CPP_BINDINGS_PATH + 'include/gen/'])
-env.Append(LIBPATH=[CPP_BINDINGS_PATH + 'bin/', MONGO_CXX_LIBPATH])
-env.Append(LIBS=[CPP_LIBRARY, MONGO_CXX_LIBPATH + '*.lib'])
+env.Append(LIBPATH=[CPP_BINDINGS_PATH + 'bin/'])
+env.Append(LIBS=[CPP_LIBRARY])
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=['thirdparty/', 'src/'])
-# env.Append(CPPPATH=[BOOST_INCLUDE_PATH])
-env.Append(CPPPATH=[MONGO_CXX_INCLUDE_PATH + 'bsoncxx/v_noabi/'])
-env.Append(CPPPATH=[MONGO_CXX_INCLUDE_PATH + 'mongocxx/v_noabi/'])
 
 sources = [Glob('src/*.cpp')]
 
