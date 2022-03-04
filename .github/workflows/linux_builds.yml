@@ -25,7 +25,8 @@ jobs:
       - name: Configure dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install build-essential libmongoc-1.0-0 libbson-1.0-0 cmake libssl-dev libsasl2-dev libmongoc-dev
+          sudo apt-get install build-essential cmake libssl-dev libsasl2-dev
+          # sudo apt-get install libmongoc-1.0-0 libbson-1.0-0
       # Use python 3.x release (works cross platform; best to keep self contained in it's own step)
       - name: Set up Python 3.x
         uses: actions/setup-python@v2
@@ -42,27 +43,22 @@ jobs:
           python -m pip install scons
           python --version
           scons --version
-      - name: Compilation
+      - name: Generating Godot Bindings
         run: |
-          echo ------------------------------
-          echo Generating Godot Bindings
-          echo ------------------------------
           mkdir -v -p ${{env.PROJECT_FOLDER}}/${{env.TARGET_PATH}}
           cd ${{env.PROJECT_FOLDER}}
           cd thirdparty/godot-cpp
           scons platform=linux bits=64 target=${{env.TARGET}} generate_bindings=yes -j4
           cd ../
-
-          echo ------------------------------
-          echo Building mongo-c-driver
-          echo ------------------------------
+      - name: Installing mongo-c-driver
           cd mongo-c-driver
-          python build/calc_release_version.py > VERSION_CURRENT
+          # python build/calc_release_version.py > VERSION_CURRENT
           mkdir -v -p cmake-build
           cd cmake-build
-          cmake -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DCMAKE_BUILD_TYPE=Release -DENABLE_EXAMPLES=OFF -DENABLE_TESTS=OFF ..
-          cmake --build .
-          sudo cmake --build . --target install
+          sudo apt install libmongoc-dev
+          # cmake -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DCMAKE_BUILD_TYPE=Release -DENABLE_EXAMPLES=OFF -DENABLE_TESTS=OFF ..
+          # cmake --build .
+          # sudo cmake --build . --target install
           cd ../../
 
 
