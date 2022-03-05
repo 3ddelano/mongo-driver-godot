@@ -6,7 +6,7 @@ on:
 # Global Settings
 env:
   PROJECT_FOLDER: .
-  TARGET_PATH: addons/mongo-driver-godot/bin/linux
+  TARGET_PATH: addons/mongo-driver-godot/bin/
   TARGET_NAME: libmongo-godot
   TARGET: release
 
@@ -71,10 +71,11 @@ jobs:
 
       - name: Installing mongo-driver-godot
         run: |
+          cp -R /usr/local/lib/. ${{env.PROJECT_FOLDER}}/${{env.TARGET_PATH}}
           scons platform=linux target=${{env.TARGET}} target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} -j8
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: linux
           path: ${{env.PROJECT_FOLDER}}/${{env.TARGET_PATH}}

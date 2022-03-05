@@ -92,8 +92,8 @@ elif env['platform'] == "windows":
     else:
         env.Append(CCFLAGS=['-O2', '-EHsc', '-DNDEBUG', '-MD'])
 
-    env.Append(LIBPATH=[CPP_BINDINGS_PATH + 'bin/', MONGO_CXX_LIBPATH])
-    env.Append(LIBS=[CPP_LIBRARY, MONGO_CXX_LIBPATH + '*.lib'])
+    env.Append(LIBPATH=[MONGO_CXX_LIBPATH])
+    env.Append(LIBS=[MONGO_CXX_LIBPATH + '*.lib'])
     env.Append(CPPPATH=[MONGO_CXX_INCLUDE_PATH + 'bsoncxx/v_noabi/'])
     env.Append(CPPPATH=[MONGO_CXX_INCLUDE_PATH + 'mongocxx/v_noabi/'])
 
