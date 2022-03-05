@@ -8,6 +8,3 @@
 [submodule "docs/site/themes/hugo-theme-learn"]
 	path = docs/site/themes/hugo-theme-learn
 	url = https://github.com/matcornic/hugo-theme-learn.git
-[submodule "thirdparty/godot-cpp"]
-	path = thirdparty/godot-cpp
-	url = https://github.com/godotengine/godot-cpp.git
