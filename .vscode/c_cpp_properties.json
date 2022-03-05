@@ -1,26 +1,29 @@
 {
-  "configurations": [
-    {
-      "name": "Win64",
-      "includePath": [
-        "${workspaceFolder}",
-        "${workspaceFolder}/src/",
-
-        "${workspaceFolder}/thirdparty/godot-cpp/godot-headers",
-        "${workspaceFolder}/thirdparty/godot-cpp/include",
-        "${workspaceFolder}/thirdparty/godot-cpp/include/core",
-        "${workspaceFolder}/thirdparty/godot-cpp/include/gen",
-
-        "${workspaceFolder}/bin/mongo-cxx-driver/include/bsoncxx/v_noabi/",
-        "${workspaceFolder}/bin/mongo-cxx-driver/include/mongocxx/v_noabi/"
-      ],
-      "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
-      "compileCommands": "${default}",
-      "intelliSenseMode": "${default}",
-      "cppStandard": "c++17",
-      "cStandard": "c11",
-      "compilerPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\Hostx86\\x64\\cl.exe"
-    }
-  ],
-  "version": 4
+    "configurations": [
+        {
+            "name": "Win64",
+            "includePath": [
+                "${workspaceFolder}",
+                "${workspaceFolder}/src/",
+                "${workspaceFolder}/thirdparty/godot-cpp/godot-headers",
+                "${workspaceFolder}/thirdparty/godot-cpp/include",
+                "${workspaceFolder}/thirdparty/godot-cpp/include/core",
+                "${workspaceFolder}/thirdparty/godot-cpp/include/gen",
+                "${workspaceFolder}/bin/mongo-cxx-driver/include/bsoncxx/v_noabi/",
+                "${workspaceFolder}/bin/mongo-cxx-driver/include/mongocxx/v_noabi/"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compileCommands": "${default}",
+            "intelliSenseMode": "${default}",
+            "cppStandard": "c++17",
+            "cStandard": "c11",
+            "compilerPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\Hostx86\\x64\\cl.exe",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
 }

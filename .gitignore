@@ -7,3 +7,5 @@ run.bat
 .env
 bin/
 mongo-godot-*.zip
+work/
+build/
