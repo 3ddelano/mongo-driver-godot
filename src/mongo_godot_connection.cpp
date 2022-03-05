@@ -9,7 +9,7 @@ void MongoGodotConnection::_set_client(mongocxx::client* p_client) {
     _client = p_client;
 }
 
-Variant MongoGodotConnection::get_database_names(const Dictionary& p_filter) {
+Variant MongoGodotConnection::get_database_names(Dictionary p_filter) {
     if (_client == nullptr || !_client) {
         return ERR_DICT("Connection not setup");
     }
@@ -30,7 +30,7 @@ Variant MongoGodotConnection::get_database_names(const Dictionary& p_filter) {
     }
 }
 
-Variant MongoGodotConnection::get_database(const String& database_name) {
+Variant MongoGodotConnection::get_database(String database_name) {
     if (database_name.length() == 0) {
         return ERR_DICT("Database name is empty.");
     }

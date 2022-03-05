@@ -526,7 +526,7 @@ Variant MongoGodotCollection::count_documents(Dictionary p_filter, Dictionary p_
                 }
             }
             if (p_options.has("max_time")) {
-                auto max_time = std::chrono::milliseconds((long long) p_options["max_time"]);
+                auto max_time = std::chrono::milliseconds((uint64_t) p_options["max_time"]);
                 options.max_time(max_time);
             }
             // TODO: support read_preference
@@ -578,7 +578,7 @@ Dictionary MongoGodotCollection::create_index(Dictionary p_index, Dictionary p_o
             OPTIONAL_KEY_FROM_DICT_AND_CALL_METHOD(p_options, "commit_quorum", int, options.commit_quorum);
 
             if (p_options.has("max_time")) {
-                auto max_time = std::chrono::milliseconds((long long) p_options["max_time"]);
+                auto max_time = std::chrono::milliseconds((uint64_t) p_options["max_time"]);
                 options.max_time(max_time);
             }
 

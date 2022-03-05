@@ -21,7 +21,7 @@ class MongoGodotConnection : public Reference {
      * @param filter Optional query expression to filter the returned database names.
      * @return Array of database names or error Dictionary
      */
-    Variant MongoGodotConnection::get_database_names(const Dictionary& filter = Dictionary());
+    Variant get_database_names(Dictionary filter = Dictionary());
 
     /**
      * @brief Obtains a database thats represents a logical grouping of collections on a MongoDB server
@@ -29,7 +29,7 @@ class MongoGodotConnection : public Reference {
      * @param name Name of the database to get
      * @return The MongoGodotDatabase or error Dictionary
      */
-    Variant get_database(const String& name);
+    Variant get_database(String name);
 
     void _set_client(mongocxx::client* client);
 
