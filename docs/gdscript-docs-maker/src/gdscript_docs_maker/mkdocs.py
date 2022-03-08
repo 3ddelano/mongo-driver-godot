@@ -29,12 +29,12 @@ markdown"""
 
         hide_str = "\n".join(["  - " + section for section in hide_sections])
         if hide_str != "":
-            hide_str = "hide:\n" + hide_str 
+            hide_str = "hide:\n" + hide_str
 
         tags_str = "\n".join(["  - " + tag for tag in self.tags])
         if tags_str != "":
             tags_str = "tags:\n" + tags_str
-        
+
         strings: List[str] = [
             self.title,
             self.description,
@@ -54,7 +54,6 @@ markdown"""
         if "class" in gdscript.metadata.tags:
             name: str = "Class " + name
 
-        
         return MkDocsFrontMatter(
             name,
             gdscript.description.replace("\n", "\\n"),

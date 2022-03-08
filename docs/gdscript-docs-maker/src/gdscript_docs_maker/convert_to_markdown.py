@@ -19,6 +19,7 @@ from .make_markdown import (
     make_comment,
     make_heading,
     make_link,
+    make_list,
     make_table_header,
     make_table_row,
     surround_with_html,
@@ -26,6 +27,7 @@ from .make_markdown import (
 )
 
 GODOT_DOCS_URL = "https://docs.godotengine.org/en/stable/classes/class_{}.html"
+
 
 def convert_to_markdown(
     classes: GDScriptClasses, arguments: Namespace, info: ProjectInfo
@@ -54,7 +56,8 @@ def _as_markdown(classes: GDScriptClasses, gdscript: GDScriptClass, arguments: N
         name += " " + surround_with_html("(abstract)", "small")
 
     if output_format == OutputFormats.MKDOCS:
-        front_matter: MkDocsFrontMatter = MkDocsFrontMatter.from_data(gdscript, arguments)
+        front_matter: MkDocsFrontMatter = MkDocsFrontMatter.from_data(
+            gdscript, arguments)
         content += front_matter.as_string_list()
 
     content += [
@@ -65,9 +68,9 @@ def _as_markdown(classes: GDScriptClasses, gdscript: GDScriptClass, arguments: N
         + "\n"
     ]
 
-    if output_format == OutputFormats.MARDKOWN:
-        content += [*make_heading(name, 1)]
-    
+    # if output_format == OutputFormats.MARDKOWN:
+    content += [*make_heading(name, 1)]
+
     if gdscript.extends:
         extends_list: List[str] = gdscript.get_extends_tree(classes)
         extends_links = []
@@ -75,9 +78,8 @@ def _as_markdown(classes: GDScriptClasses, gdscript: GDScriptClass, arguments: N
             link = make_link(entry, "../" + entry)
             if entry.lower() in BUILTIN_CLASSES:
                 link = make_link(entry, GODOT_DOCS_URL.format(entry.lower()))
-            extends_links.append(link) 
+            extends_links.append(link)
         content += [make_bold("Extends:") + " " + " < ".join(extends_links)]
-    
 
     description = _replace_references(classes, gdscript, gdscript.description)
     content += [*MarkdownSection("Description", 2, [description]).as_text()]
@@ -100,24 +102,24 @@ def _as_markdown(classes: GDScriptClasses, gdscript: GDScriptClass, arguments: N
         content += MarkdownSection(
             "Signals", 2, _write_signals(classes, gdscript, output_format)
         ).as_text()
-    
+
     content += _write_class(classes, gdscript, output_format, 2)
 
     if gdscript.sub_classes:
         content += make_heading("Sub-classes", 2)
-    for cls in gdscript.sub_classes:
-        content += _write_class(classes, cls, output_format, 3, True)
+        content.append("")
+
+        #sub_classes = []
+        for cls in gdscript.sub_classes:
+            content += _write_class(classes, cls, output_format, 3, True)
+            #sub_classes += make_heading(cls.name, 3)[1]
+            # print(sub_classes)
+        #content += make_list(sub_classes)
 
     return MarkdownDocument(gdscript.name, content)
 
 
-def _write_class(
-    classes: GDScriptClasses,
-    gdscript: GDScriptClass,
-    output_format: OutputFormats,
-    heading_level: int,
-    is_inner_class: bool = False,
-) -> List[str]:
+def _write_class(classes: GDScriptClasses, gdscript: GDScriptClass, output_format: OutputFormats, heading_level: int, is_inner_class: bool = False) -> List[str]:
     markdown: List[str] = []
     if is_inner_class:
         markdown += make_heading(gdscript.name, heading_level)
@@ -165,14 +167,16 @@ def _write(
         markdown.extend(make_heading(heading, heading_level))
 
         markdown.extend([make_code_block(element.signature), ""])
-        
+
         description_first = False
         if isinstance(element, Function):
             description_first = True
 
         unique_attributes = element.get_unique_attributes_as_markdown()
-        unique_attributes = [_replace_references(classes, gdscript, x) for x in unique_attributes]
-        description: str = _replace_references(classes, gdscript, element.description)
+        unique_attributes = [_replace_references(
+            classes, gdscript, x) for x in unique_attributes]
+        description: str = _replace_references(
+            classes, gdscript, element.description)
 
         if description_first:
             markdown.append(description)
@@ -202,10 +206,12 @@ def _write_signals(
 
 
 def _write_index_page(classes: GDScriptClasses, info: ProjectInfo) -> MarkdownDocument:
-    title: str = "{} ({})".format(info.name, surround_with_html(info.version, "small"))
+    title: str = "{} ({})".format(
+        info.name, surround_with_html(info.version, "small"))
     content: List[str] = [
         *MarkdownSection(title, 1, info.description).as_text(),
-        *MarkdownSection("Contents", 2, _write_table_of_contents(classes)).as_text(),
+        *MarkdownSection("Contents", 2,
+                         _write_table_of_contents(classes)).as_text(),
     ]
     return MarkdownDocument("index", content)
 
@@ -240,7 +246,7 @@ def _replace_references(classes: GDScriptClasses, gdscript: GDScriptClass, descr
         "member": "Symbol {} not found in {}. The name might be incorrect.",
     }
     ERROR_TAIL = "The name might be incorrect."
-    
+
     references: re.Match = re.findall(r"\[.+\]", description)
     for reference in references:
         # Matches [ClassName], [symbol], and [ClassName.symbol]
@@ -256,18 +262,21 @@ def _replace_references(classes: GDScriptClasses, gdscript: GDScriptClass, descr
             if class_name.lower() in BUILTIN_CLASSES:
                 is_builtin_class = True
             else:
-                LOGGER.warning(ERROR_MESSAGES["class"].format(class_name) + ERROR_TAIL)
+                LOGGER.warning(ERROR_MESSAGES["class"].format(
+                    class_name) + ERROR_TAIL)
                 continue
 
         if member and class_name:
             if member not in classes.class_index[class_name]:
                 LOGGER.warning(
-                    ERROR_MESSAGES["member"].format(member, class_name) + ERROR_TAIL
+                    ERROR_MESSAGES["member"].format(
+                        member, class_name) + ERROR_TAIL
                 )
                 continue
         elif member and member not in classes.class_index[gdscript.name]:
             LOGGER.warning(
-                ERROR_MESSAGES["member"].format(member, gdscript.name) + ERROR_TAIL
+                ERROR_MESSAGES["member"].format(
+                    member, gdscript.name) + ERROR_TAIL
             )
             continue
 
@@ -280,7 +289,7 @@ def _replace_references(classes: GDScriptClasses, gdscript: GDScriptClass, descr
         if member:
             display_text += member
             path += "#" + member.replace("_", "-")
-        
+
         if is_builtin_class:
             display_text = class_name
             path = GODOT_DOCS_URL.format(class_name.lower())

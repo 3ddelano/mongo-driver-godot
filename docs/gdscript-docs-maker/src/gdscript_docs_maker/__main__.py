@@ -25,29 +25,35 @@ def main():
         print(pkg_resources.get_distribution("gdscript-docs-maker").version)
         sys.exit()
 
-    logging.basicConfig(level=LOG_LEVELS[min(args.verbose, len(LOG_LEVELS) - 1)])
+    logging.basicConfig(
+        level=LOG_LEVELS[min(args.verbose, len(LOG_LEVELS) - 1)])
     LOGGER.debug("Output format: {}".format(args.format))
-    json_files: List[str] = [f for f in args.files if f.lower().endswith(".json")]
+    json_files: List[str] = [
+        f for f in args.files if f.lower().endswith(".json")]
     LOGGER.info("Processing JSON files: {}".format(json_files))
     for f in json_files:
         with open(f, "r") as json_file:
             data: list = json.loads(json_file.read())
             project_info: ProjectInfo = ProjectInfo.from_dict(data)
-            classes: GDScriptClasses = GDScriptClasses.from_dict_list(data["classes"])
+            classes: GDScriptClasses = GDScriptClasses.from_dict_list(
+                data["classes"])
             classes_count: int = len(classes)
 
             LOGGER.info(
-                "Project {}, version {}".format(project_info.name, project_info.version)
+                "Project {}, version {}".format(
+                    project_info.name, project_info.version)
             )
             LOGGER.info(
-                "Processing {} classes in {}".format(classes_count, os.path.basename(f))
+                "Processing {} classes in {}".format(
+                    classes_count, os.path.basename(f))
             )
 
             documents: List[MarkdownDocument] = convert_to_markdown(
                 classes, args, project_info
             )
             if args.dry_run:
-                LOGGER.debug("Generated {} markdown documents.".format(len(documents)))
+                LOGGER.debug(
+                    "Generated {} markdown documents.".format(len(documents)))
                 list(map(lambda doc: LOGGER.debug(doc), documents))
             else:
                 if not os.path.exists(args.path):
@@ -55,7 +61,8 @@ def main():
                     os.mkdir(args.path)
 
                 LOGGER.info(
-                    "Saving {} markdown files to {}".format(len(documents), args.path)
+                    "Saving {} markdown files to {}".format(
+                        len(documents), args.path)
                 )
                 list(map(save, documents, repeat(args.path)))
 

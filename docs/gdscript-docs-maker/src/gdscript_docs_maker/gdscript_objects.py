@@ -337,13 +337,20 @@ class GDScriptClass:
         extends: str = data["extends_class"][0] if data["extends_class"] else ""
 
         enumerations = []
-
         for entry in data["constants"]:
             if entry["data_type"] == "Dictionary" and all(isinstance(v, int) for v in entry["value"].values()) and not entry["name"].startswith("_"):
                 enumeration = Enumeration.from_dict(entry)
                 if enumeration.hidden:
                     continue
                 enumerations.append(enumeration)
+
+        sub_classes = []
+        for entry in data["sub_classes"]:
+            sub_class = GDScriptClass.from_dict(entry)
+            if sub_class.hidden:
+                continue
+            sub_classes.append(sub_class)
+
         return GDScriptClass(
             data["name"],
             extends,
@@ -355,7 +362,7 @@ class GDScriptClass:
             _get_constants(data["constants"]),
             _get_signals(data["signals"]),
             enumerations,
-            [GDScriptClass.from_dict(data) for data in data["sub_classes"]],
+            sub_classes,
             "Uncategorized",
         )
 
