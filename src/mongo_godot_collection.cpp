@@ -297,7 +297,9 @@ Dictionary MongoGodotCollection::insert_many(Array p_docs, Dictionary p_options)
         auto inserted_count = result->inserted_count();
         Array inserted_idsArr = Array();
         for (auto inserted_id : inserted_ids) {
-            inserted_idsArr.append(inserted_id.second.get_oid().value.to_string().c_str());
+            Variant inserted_id_variant;
+            BSON_VALUE_TO_GODOT_VARIANT(inserted_id.second, inserted_id_variant);
+            inserted_idsArr.append(inserted_id_variant);
         }
 
         return Dictionary::make("inserted_ids", inserted_idsArr, "inserted_count", inserted_count);
