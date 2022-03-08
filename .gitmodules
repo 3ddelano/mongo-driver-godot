@@ -7,3 +7,6 @@
 [submodule "thirdparty/mongo-cxx-driver"]
 	path = thirdparty/mongo-cxx-driver
 	url = https://github.com/mongodb/mongo-cxx-driver.git
+[submodule "thirdparty/mongo-c-driver"]
+	path = thirdparty/mongo-c-driver
+	url = https://github.com/mongodb/mongo-c-driver.git

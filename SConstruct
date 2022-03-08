@@ -30,7 +30,6 @@ MONGO_C_LIBPATH = "bin/mongo-c-driver/lib/"
 MONGO_C_INCLUDE_PATH = "bin/mongo-c-driver/include/"
 MONGO_CXX_LIBPATH = "bin/mongo-cxx-driver/lib/"
 MONGO_CXX_INCLUDE_PATH = "bin/mongo-cxx-driver/include/"
-#BOOST_INCLUDE_PATH = "D:/Program Files/boost_1_78_0"
 
 # only support 64 at this time..
 bits = 64
@@ -73,7 +72,8 @@ elif env['platform'] in ('x11', 'linux'):
     else:
         env.Append(CCFLAGS=['-fPIC', '-g', '-O3', '-std=c++17'])
     
-    env.Append(LIBPATH=['/usr/local/lib'])
+    env.Append(LIBPATH=['addons/mongo-driver-godot/bin/x11'])
+    env.Append(LINKFLAGS=["-Wl,-R,'$$ORIGIN'"])
     env.Append(LIBS=['mongocxx.so', 'bsoncxx.so'])
     env.Append(CPPPATH=['/usr/local/include/mongocxx/v_noabi/', '/usr/local/include/bsoncxx/v_noabi', '/usr/local/include/libmongoc-1.0', '/usr/local/include/libbson-1.0'])
 
@@ -111,7 +111,7 @@ else:
 # make sure our binding library is properly includes
 env.Append(CPPPATH=['.', GODOT_HEADERS_PATH, CPP_BINDINGS_PATH + 'include/',
            CPP_BINDINGS_PATH + 'include/core/', CPP_BINDINGS_PATH + 'include/gen/'])
-env.Append(LIBPATH=[CPP_BINDINGS_PATH + 'bin/'])
+env.Append(LIBPATH=['bin/godot-cpp'])
 env.Append(LIBS=[CPP_LIBRARY])
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.

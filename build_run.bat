@@ -1,1 +1,0 @@
-scons -j8 && run

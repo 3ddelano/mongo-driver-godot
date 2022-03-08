@@ -6,7 +6,7 @@ Mongo Driver for Godot
 
 ### Unofficial MongoDB driver for Godot Engine 3.3.
 
-> Supports Windows, Linux and MacOS
+> Should support Windows, Linux, OSX (Currently only tested on Windows)
 
 
 <br>

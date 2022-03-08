@@ -4,6 +4,7 @@ run.bat
 *.lib
 *.obj
 *.o
+*.os
 .env
 bin/
 mongo-godot-*.zip

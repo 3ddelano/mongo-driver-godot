@@ -6,10 +6,15 @@ set build_target="Visual Studio 16 2019"
 set target="release"
 echo Building using %build_target% compiler and %target% target
 
-mkdir "bin/mongo-c-driver"
-mkdir "bin/mongo-cxx-driver"
-mkdir "addons/mongo-driver-godot/bin/win64"
+if not exist "bin/godot-cpp" mkdir "bin/godot-cpp"
+if not exist "bin/mongo-c-driver" mkdir "bin/mongo-c-driver"
+if not exist "bin/mongo-cxx-driver" mkdir "bin/mongo-cxx-driver"
+if not exist "addons/mongo-driver-godot/bin/win64" mkdir "addons/mongo-driver-godot/bin/win64"
 
+pushd %CD%
+cd "bin/godot-cpp"
+set bin_godot_cpp_dir=%CD%
+popd
 pushd %CD%
 cd "bin/mongo-c-driver"
 set bin_mongo_c_driver_dir=%CD%
@@ -23,14 +28,20 @@ cd addons/mongo-driver-godot/bin/win64
 set project_bin_win_dir=%CD%
 popd
 
-
-echo Generating bindings for godot-cpp
-pushd %CD%
-cd thirdparty/godot-cpp
 set godot_target="release"
 if %TARGET%=="debug" (set godot_target="debug")
-scons platform=windows target=%godot_target% generate_bindings=yes -j8
-popd
+
+@REM Check if godot-cpp is built
+IF EXIST "bin/godot-cpp/libgodot-cpp.windows.%TARGET%.64.lib" (
+    echo Found godot-cpp %TARGET% lib
+) ELSE (
+    echo Builing godot-cpp %TARGET% lib
+    pushd %CD%
+    cd thirdparty/godot-cpp
+    scons platform=windows target=%godot_target% generate_bindings=yes -j8
+    move /Y ".\bin\libgodot-cpp.windows.release.64.lib" %bin_godot_cpp_dir%
+    popd
+)
 
 
 REM Installation instructions from:
@@ -38,7 +49,7 @@ REM http://mongoc.org/libmongoc/current/installing.html#preparing-a-build-from-a
 echo Installing mongo-c-driver
 pushd %CD%
 cd thirdparty/mongo-c-driver
-python build/calc_release_version.py > VERSION_CURRENT
+@REM python build/calc_release_version.py > VERSION_CURRENT
 mkdir cmake-build
 cd cmake-build
 set mongoc_target="Release"
@@ -57,11 +68,12 @@ pushd %CD%
 cd thirdparty/mongo-cxx-driver/build
 set mongocxx_target="Release"
 if %TARGET%=="debug" (set mongocxx_target="Debug")
-cmake -G %build_target% -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_FLAGS="/Zc:__cplusplus" -DENABLE_TESTS=OFF -DCMAKE_BUILD_TYPE=%mongocxx_target% -DLIBMONGOC_DIR==%bin_mongo_c_driver_dir% -DLIBBSON_DIR==%bin_mongo_c_driver_dir% -DCMAKE_INSTALL_PREFIX=%bin_mongo_cxx_driver_dir% ..
+cmake -G %build_target% -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_FLAGS="/Zc:__cplusplus" -DENABLE_TESTS=OFF -DCMAKE_BUILD_TYPE=%mongocxx_target% -DLIBMONGOC_DIR==%bin_mongo_c_driver_dir% -DLIBBSON_DIR==%bin_mongo_c_driver_dir% -DCMAKE_PREFIX_PATH=%bin_mongo_c_driver_dir% -DCMAKE_INSTALL_PREFIX=%bin_mongo_cxx_driver_dir% ..
 set mongocxx_config_type="RelWithDebInfo"
 if %TARGET%=="debug" (set mongocxx_config_type="Debug")
 cmake --build . --config %mongocxx_config_type% --target install
 popd
+
 
 echo Copying dlls to project
 robocopy %bin_mongo_c_driver_dir%\bin %project_bin_win_dir% /NFL /NDL /NJH /NJS /nc /ns /np /IS /IT
