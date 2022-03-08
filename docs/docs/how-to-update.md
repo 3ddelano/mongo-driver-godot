@@ -1,7 +1,7 @@
 ---
 title: How to update
 tags:
-  - update
+  - Update
 ---
 # How to update
 As of Godot 3, there is no automated way to update plugins in a clean method.

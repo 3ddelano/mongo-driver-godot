@@ -1,7 +1,7 @@
 ---
 title: Building
 tags:
-  - building
+  - Building
 ---
 
 Following are the instructions to build the plugin from source.

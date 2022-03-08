@@ -1,7 +1,7 @@
 ---
 title: Examples
 tags:
-  - examples
+  - Examples
 ---
 
 Some common examples are given below. For in-depth examples see the test cases in the `project/tests/unit/` folder

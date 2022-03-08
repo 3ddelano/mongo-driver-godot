@@ -1,7 +1,7 @@
 ---
 title: Installation
 tags:
-  - installation
+  - Installation
 ---
 
 ## From Asset Library

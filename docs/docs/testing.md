@@ -1,7 +1,7 @@
 ---
 title: Testing
 tags:
-  - testing
+  - Testing
 ---
 
 The plugin has a separate plugin for testing which is present in the `addons/tester/` folder.
