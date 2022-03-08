@@ -59,12 +59,16 @@ _global_script_class_icons={
 config/name="Mongo Driver Godot"
 config/description="Unofficial MongoDB driver for Godot Engine 3.3"
 run/main_scene="res://Main.tscn"
-config/icon="res://addons/mongo-driver-godot/mongo_godot_driver_logo.png"
+config/icon="res://addons/mongo-driver-godot/mongo_driver_godot_logo.png"
 
 [autoload]
 
 Env="*res://Env.gd"
 TestUtils="*res://addons/tester/test_utils.gd"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/mongo-driver-godot/plugin.cfg", "res://addons/tester/plugin.cfg" )
 
 [physics]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/mongo_godot_driver_logo.png-6a8774f4a291ccad5d7bbc715863aad2.stex"
+path="res://.import/mongo_driver_godot_logo.png-1536f072f0beabf2f07739892fb64fec.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/mongo-driver-godot/mongo_godot_driver_logo.png"
-dest_files=[ "res://.import/mongo_godot_driver_logo.png-6a8774f4a291ccad5d7bbc715863aad2.stex" ]
+source_file="res://addons/mongo-driver-godot/mongo_driver_godot_logo.png"
+dest_files=[ "res://.import/mongo_driver_godot_logo.png-1536f072f0beabf2f07739892fb64fec.stex" ]
 
 [params]
 
