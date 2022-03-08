@@ -63,7 +63,7 @@ func create_index(index: Dictionary, options = {}):
 func get_indexes():
 	var ret = _call("get_indexes", [])
 	if typeof(ret) != TYPE_DICTIONARY:
-		# Return a Mongo.Index wrapping a MongoGodotIndex
+		# Return a MongoIndex wrapping a MongoGodotIndex
 		return Index.new(ret)
 	return ret
 
@@ -85,4 +85,4 @@ func _init(obj).(obj):
 	pass
 
 func _to_string() -> String:
-	return "[Mongo.Collection:%s]" % str(get_instance_id())
+	return "[MongoCollection:%s]" % str(get_instance_id())

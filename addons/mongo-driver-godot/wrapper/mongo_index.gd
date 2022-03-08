@@ -28,4 +28,4 @@ func _init(obj).(obj):
 	pass
 
 func _to_string() -> String:
-	return "[Mongo.Index:%s]" % str(get_instance_id())
+	return "[MongoIndex:%s]" % str(get_instance_id())

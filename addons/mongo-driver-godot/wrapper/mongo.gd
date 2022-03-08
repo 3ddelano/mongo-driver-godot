@@ -245,6 +245,11 @@ static func Mul(val) -> Dictionary:
 		"$mul": val
 	}
 
+static func Multiply(val) -> Dictionary:
+	return {
+		"$multiply": val
+	}
+
 static func Rename(val) -> Dictionary:
 	return {
 		"$rename": val
@@ -477,7 +482,27 @@ static func SetField(val) -> Dictionary:
 		"$setField": val
 	}
 
+# ----- Aggregation -----
 
+static func Match(val) -> Dictionary:
+	return {
+		"$match": val
+	}
+
+static func Sum(val) -> Dictionary:
+	return {
+		"$sum": val
+	}
+
+static func Group(val) -> Dictionary:
+	return {
+		"$group": val
+	}
+
+static func Avg(val) -> Dictionary:
+	return {
+		"$avg": val
+	}
 #static func Date(unixtime = OS.get_unix_time()):
 #	var datetime = OS.get_datetime_from_unix_time(unixtime)
 #	var timezone = OS.get_time_zone_info()

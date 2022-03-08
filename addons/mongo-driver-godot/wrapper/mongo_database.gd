@@ -54,4 +54,4 @@ func _init(obj).(obj):
 	pass
 
 func _to_string() -> String:
-	return "[Mongo.Database:%s]" % str(get_instance_id())
+	return "[MongoDatabase:%s]" % str(get_instance_id())

@@ -9,7 +9,7 @@ extends "res://addons/mongo-driver-godot/proxy.gd"
 func connect_to_server(uri: String):
 	var ret = _call("connect_to_server", [uri])
 	if typeof(ret) != TYPE_DICTIONARY:
-		# Return a Mongo.Connection wrapping a MongoGodotConnection
+		# Return a MongoConnection wrapping a MongoGodotConnection
 		return Connection.new(ret)
 	return ret
 
@@ -27,4 +27,4 @@ func _init(obj = null).(MongoGodotDriverImpl.new()):
 	pass
 
 func _to_string() -> String:
-	return "[Mongo.Driver:%s]" % str(get_instance_id())
+	return "[MongoDriver:%s]" % str(get_instance_id())
