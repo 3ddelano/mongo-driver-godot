@@ -43,7 +43,7 @@ Getting Started
 extends Node
 
 func _ready():
-	var driver = MongoDriver.new()
+    var driver = MongoDriver.new()
     var connection = driver.connect_to_server("mongodb://localhost:27017")
 
     if Mongo.is_error(connection):
