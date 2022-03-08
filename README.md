@@ -36,7 +36,7 @@ Getting Started
 ----------
 
 1. After activating the plugin. You may have to restart the Godot Editor.
-2. Connect the various signals (`bot_ready`, `guild_create`, `message_create`, `message_delete`, etc) of the `DiscordBot` node to the parent node, either through the editor or in the script using the `connect()` method.
+2. Then make a single instance of the driver by using `MongoDriver.new()`, follow the below example script:
 
 
 ```GDScript
@@ -74,6 +74,6 @@ None, you can be the first one!
 
 Want to support in other ways? Contact me on Discord: `@3ddelano#6033`
 
-For doubts / help / bugs / problems / suggestions do join: [3ddelano Cafe](https://discord.gg/FZY9TqW)
+For help / suggestions join: [3ddelano Cafe](https://discord.gg/FZY9TqW)
 
 #### Disclaimer: This project is not affiliated nor endorsed by MongoDB Inc. nor Godot Engine
