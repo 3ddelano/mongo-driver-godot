@@ -86,7 +86,7 @@ class MongoGodotCollection : public Reference {
     /**
      * @brief Inserts multiple documents into the collection.
      *
-     * If any of the documents are missing identifiers the they will be generated for them.
+     * If any of the documents are missing identifiers then they will be generated for them.
      *
      * @param doc Array of documents to insert
      * @param options Optional arguments
@@ -187,12 +187,12 @@ class MongoGodotCollection : public Reference {
      *
      * @param index Dictionary representing the 'keys' and 'options' of the new index
      * @param options Optional arguments
-     * @return result Dictionary or error Dictionary
+     * @return Dictionary or error Dictionary
      */
     Dictionary create_index(Dictionary index, Dictionary options = Dictionary());
 
     /**
-     * @brief Returns a MongoGodotIndex for the collection
+     * @brief Returns a MongoGodotIndex for this collection
      *
      * @return MongoGodotIndex or error Dictionary
      */
