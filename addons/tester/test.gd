@@ -6,19 +6,24 @@ enum TestMode {
 	RECURSIVE_DIRECTORY
 }
 
-var TESTS_PATH = "res://tests/unit/"
+
+
+# Config Vars
+var TESTS_PATH = "res://tests/benchmark/test_insert_many_large.gd"
 var TEST_FILE_PREFIX = "test_"
 var TEST_FILE_SUFFIX = ".gd"
+var TEST_MODE = TestMode.SINGLE_FILE
+
+
 
 var _dirs = [TESTS_PATH.get_base_dir()]
 var _tests = []
 
-var test_mode = TestMode.RECURSIVE_DIRECTORY
 
 func _ready() -> void:
 	TestUtils.start_epoch = OS.get_ticks_msec()
 
-	if test_mode == TestMode.SINGLE_FILE:
+	if TEST_MODE == TestMode.SINGLE_FILE:
 		run_test(TESTS_PATH)
 	else:
 		run_tests()
@@ -64,7 +69,7 @@ func run_tests():
 				continue
 
 			if dir.current_is_dir():
-				if test_mode == TestMode.RECURSIVE_DIRECTORY:
+				if TEST_MODE == TestMode.RECURSIVE_DIRECTORY:
 					_dirs.append(file_name)
 			elif is_valid_test_filename(file_name):
 				# Found test file
