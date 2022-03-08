@@ -7,7 +7,9 @@ nav:
   - Home: index.md
   - Installation: installation.md
   - How to Update: how-to-update.md
-  - Getting Started: getting-started.md
+  - Building: building.md
+  - Testing: testing.md
+  - Examples: examples.md
   - Classes:
       Mongo: ./classes/Mongo
       MongoDriver: ./classes/MongoDriver
@@ -72,11 +74,14 @@ extra:
       name: Youtube
 markdown_extensions:
   - meta
-  - pymdownx.tasklist:
-      custom_checkbox: true
   - attr_list
   - md_in_html
   - tables
+  - pymdownx.betterem
+  - pymdownx.superfences
+  - pymdownx.smartsymbols
+  - pymdownx.tasklist:
+      custom_checkbox: true
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
@@ -87,7 +92,7 @@ markdown_extensions:
 plugins:
   # - tags:
   - search:
-      separator: '[ \s\-\._]'
+      separator: '[ \s\-\.]'
   - minify:
       minify_html: true
       minify_js: true

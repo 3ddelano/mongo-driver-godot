@@ -7,11 +7,11 @@ hide:
 # Welcome to Mongo Driver Godot Documentation
 
 [Download Latest Zip :octicons-file-zip-16:](https://github.com/3ddelano/mongo-driver-godot/archive/refs/heads/main.zip){ .md-button .md-button--primary  }
-[View in AssetLib :material-store:](){ .md-button }
+<!-- [View in AssetLib :material-store:](){ .md-button } -->
 
-## Unofficial MongoDB driver for Godot Engine
+## Unofficial MongoDB driver for Godot Engine 3.3+
 
-<img alt="Godot3" src="https://img.shields.io/badge/-Godot 3.3-478CBF?style=for-the-badge&logo=godotengine&logoWidth=20&logoColor=white" />
+### For in-depth docs visit the official [MongoDB docs](https://docs.mongodb.com/manual/introduction/)
 
 ### Quick Tips to Browse through the documentation
 
