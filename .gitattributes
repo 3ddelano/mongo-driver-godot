@@ -1,0 +1,17 @@
+/.github                      export-ignore           
+/.vscode                      export-ignore  
+/docs                         export-ignore  
+/project                      export-ignore     
+/scripts                      export-ignore     
+/src                          export-ignore 
+/.clang-format                export-ignore   
+/.clang-tidy                  export-ignore 
+/.gitattributes               export-ignore   
+/.gitignore                   export-ignore   
+/.gitmodules                  export-ignore   
+/LICENSE.md                   export-ignore
+/mongo_driver_godot_logo.png  export-ignore  
+/CHANGELOG.md                 export-ignore 
+/README.md                    export-ignore
+/SConstruct                   export-ignore
+/setup                        export-ignore
