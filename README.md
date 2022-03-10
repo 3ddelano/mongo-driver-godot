@@ -64,7 +64,7 @@ Benchmarks
 Tested on Windows 10 21H2 x64 (Godot 3.4.2)
 To test locally run the scripts in `tests/benchmark` folder using the tester addon.
 > See example script in scripts/run_tests.bat
-> Click for [depth testing instruction](https://3ddelano.github.io/mongo-driver-godot/testing)
+> Click for [in-depth testing instructions](https://3ddelano.github.io/mongo-driver-godot/testing)
 
 | Operation   | Number of Documents | Time (s) |
 | ----------- | ------------------- | -------- |
@@ -76,7 +76,7 @@ To test locally run the scripts in `tests/benchmark` folder using the tester add
 Thirdparty Libraries
 -----------
 
-See [Thirdparty Libraries](./thirdparty/THIRDPARTY.md)
+See [Thirdparty Libraries](https://github.com/3ddelano/mongo-driver-godot/blob/main/thirdparty/THIRDPARTY.md)
 
 [Documentation](https://3ddelano.github.io/mongo-driver-godot)
 -----------
