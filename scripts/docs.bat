@@ -23,6 +23,6 @@ if exist __pycache__ (rmdir __pycache__ /s /q > nul)
 set GD_PROJECT_PATH=%CD%
 cd %GDSCRIPT_DOCS_MAKER_PATH%\src\
 if exist %DOCS_BUILD_PATH% (rmdir %DOCS_BUILD_PATH% /s /q > nul)
-python -m gdscript_docs_maker %GD_PROJECT_PATH%\reference.json -p %DOCS_BUILD_PATH% -f mkdocs -d DD-MM-YYYY -a delano -v
+python -m gdscript_docs_maker %GD_PROJECT_PATH%\reference.json -p %DOCS_BUILD_PATH% -f mkdocs -v
 @REM move /y %DOCS_BUILD_PATH%\index.md _index.md > nul
 cd %CUR_DIR%

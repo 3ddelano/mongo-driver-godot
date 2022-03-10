@@ -3,13 +3,19 @@
 class_name Mongo
 extends Reference
 
-class FindOneOptions:
+# Options provided to find_one_and_replace method
+class FindOneAndReplaceOptions:
+
+	# Version of document to return, either original or replaced.
 	enum ReturnDocument {
 		BEFORE,
 		AFTER
 	}
 
+# Options provided to find method
 class FindOptions:
+
+	# Indicates the type of cursor to use for this query.
 	enum CursorType {
 		NON_TAILABLE,
 		TAILABLE,
@@ -20,7 +26,7 @@ static func is_error(obj):
 	return typeof(obj) == TYPE_DICTIONARY and obj.has("MongoGodotError")
 
 
-# ----- Operators -----
+# !----- Operators -----
 
 static func ObjectId(id) -> Dictionary:
 	assert(typeof(id) == TYPE_STRING, "id passed to ObjectId must be a String")
@@ -90,7 +96,7 @@ static func Ne(val) -> Dictionary:
 	}
 
 
-# ----- Logical -----
+# !----- Logical -----
 static func And(val) -> Dictionary:
 	return {
 		"$and": val
@@ -112,7 +118,7 @@ static func Nor(val) -> Dictionary:
 	}
 
 
-# ----- Date -----
+# !----- Date -----
 static func DateAdd(val):
 	return {
 		"$dateAdd": val
@@ -219,7 +225,7 @@ static func Subtract(val):
 	}
 
 
-# ----- Update -----
+# !----- Update -----
 static func CurrentDate(val) -> Dictionary:
 	return {
 		"$currentDate": val
@@ -261,7 +267,7 @@ static func SetOnInsert(val) -> Dictionary:
 	}
 
 
-# ----- Array -----
+# !----- Array -----
 static func All(val) -> Dictionary:
 	return {
 		"$all": val
@@ -303,7 +309,7 @@ static func PullAll(val) -> Dictionary:
 	}
 
 
-# ----- Array Expression -----
+# !----- Array Expression -----
 static func ArrayElemAt(val):
 	return {
 		"$arrayElemAt": val
@@ -380,7 +386,7 @@ static func Zip(val):
 	}
 
 
-# ----- Modifiers -----
+# !----- Modifiers -----
 static func Each(val) -> Dictionary:
 	return {
 		"$each": val
@@ -397,7 +403,7 @@ static func Sort(val) -> Dictionary:
 	}
 
 
-# ----- Element -----
+# !----- Element -----
 static func Exists(val) -> Dictionary:
 	return {
 		"$exists": val
@@ -409,7 +415,7 @@ static func Type(val) -> Dictionary:
 	}
 
 
-# ----- Evaluation -----
+# !----- Evaluation -----
 static func Expr(val) -> Dictionary:
 	return {
 		"$expr": val
@@ -437,7 +443,7 @@ static func Where(val) -> Dictionary:
 	}
 
 
-# ----- Misc -----
+# !----- Misc -----
 static func Comment(val) -> Dictionary:
 	return {
 		"$comment": val
@@ -459,7 +465,7 @@ static func SampleRate(val) -> Dictionary:
 	}
 
 
-# ----- Custom -----
+# !----- Custom -----
 static func Accumulator(val) -> Dictionary:
 	return {
 		"$accumulator": val
@@ -471,7 +477,7 @@ static func Function(val) -> Dictionary:
 	}
 
 
-# ----- Literal -----
+# !----- Literal -----
 static func MergeObjects(val) -> Dictionary:
 	return {
 		"$mergeObjects": val
@@ -482,7 +488,7 @@ static func SetField(val) -> Dictionary:
 		"$setField": val
 	}
 
-# ----- Aggregation -----
+# !----- Aggregation -----
 
 static func Match(val) -> Dictionary:
 	return {
@@ -503,6 +509,7 @@ static func Avg(val) -> Dictionary:
 	return {
 		"$avg": val
 	}
+
 #static func Date(unixtime = OS.get_unix_time()):
 #	var datetime = OS.get_datetime_from_unix_time(unixtime)
 #	var timezone = OS.get_time_zone_info()

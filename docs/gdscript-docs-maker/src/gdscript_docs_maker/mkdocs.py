@@ -12,7 +12,7 @@ from .gdscript_objects import GDScriptClass
 @dataclass
 class MkDocsFrontMatter:
     """Container for required front matter data for export to mkdocs-friendly
-markdown"""
+    markdown"""
 
     title: str
     description: str
@@ -35,35 +35,27 @@ markdown"""
         if tags_str != "":
             tags_str = "tags:\n" + tags_str
 
-        strings: List[str] = [
-            self.title,
-            self.description,
-            tags_str,
-            hide_str
-        ]
-        LOGGER.debug("MKDOCS front matter:\n" + repr(strings))
-        # strings = list(map(quote_string, strings))
+        strings: List[str] = [self.title, self.description, tags_str, hide_str]
+
         ret = [MKDOCS_FRONT_MATTER["toml"].format(*strings)]
         return ret
 
     @classmethod
     def from_data(cls, gdscript: GDScriptClass, arguments: Namespace):
         name: str = gdscript.name
-        if "abstract" in gdscript.metadata.tags:
+        if "abstract" in gdscript.metadata:
             name += " " + surround_with_html("(abstract)", "small")
-        if "class" in gdscript.metadata.tags:
+        if "class" in gdscript.metadata:
             name: str = "Class " + name
 
         return MkDocsFrontMatter(
             name,
             gdscript.description.replace("\n", "\\n"),
-            gdscript.metadata.tags,
+            gdscript.metadata["tags"] if "tags" in gdscript.metadata else [],
         )
 
 
-FRONT_MATTER_DEFAULT: MkDocsFrontMatter = MkDocsFrontMatter(
-    "", "", []
-)
+FRONT_MATTER_DEFAULT: MkDocsFrontMatter = MkDocsFrontMatter("", "", [])
 
 
 def make_relref(target_document: str, language: str = "gdscript") -> str:

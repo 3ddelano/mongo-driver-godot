@@ -1,4 +1,4 @@
-import datetime
+# import datetime
 import sys
 from argparse import ArgumentParser, Namespace
 from enum import Enum
@@ -9,29 +9,31 @@ class OutputFormats(Enum):
     MKDOCS = "mkdocs"
 
 
-def _validate_output_format(args) -> OutputFormats:
-    """Validates the format argument"""
+def _validate_output_format(arg) -> OutputFormats:
+    """
+    Validates the format argument
+    """
     format: OutputFormats = OutputFormats.MARDKOWN
-    if args == "mkdocs":
+    if arg == "mkdocs":
         format = OutputFormats.MKDOCS
     return format
 
 
-def _set_date(args) -> datetime.date:
-    """Validates the date argument, parsing the date from the ISO format"""
-    date: datetime.date
-    try:
-        date = datetime.date.fromisoformat(args)
-    except ValueError:
-        date = datetime.date.today()
-    return date
+# def _set_date(args) -> datetime.date:
+#     """Validates the date argument, parsing the date from the ISO format"""
+#     date: datetime.date
+#     try:
+#         date = datetime.date.fromisoformat(args)
+#     except ValueError:
+#         date = datetime.date.today()
+#     return date
 
 
 def parse(args=sys.argv) -> Namespace:
     parser: ArgumentParser = ArgumentParser(
         prog="GDScript Docs Maker",
         description="Merges or converts json data dumped by Godot's "
-        "GDScript language server to create a code reference.",
+        "GDScript language server to create a code documentation.",
     )
     parser.add_argument(
         "files", type=str, nargs="+", default="", help="A list of paths to JSON files."
@@ -47,29 +49,29 @@ def parse(args=sys.argv) -> Namespace:
         help="Output format for the markdown files. Either markdown (default) or mkdocs,"
         " for the mkdocs static website generator.",
     )
-    parser.add_argument(
-        "-d",
-        "--date",
-        type=_set_date,
-        default=datetime.date.today(),
-        help="Date in ISO format: YYYY-MM-DD. Example: 2020-05-12 corresponds to"
-        "March 12, 2020. Only used for the mkdocs export format.",
-    )
-    parser.add_argument(
-        "-a",
-        "--author",
-        type=str,
-        default="",
-        help="ID of the author for mkdocs's front-matter. Only used for the mkdocs "
-        "export format.",
-    )
-    parser.add_argument(
-        "-i",
-        "--make-index",
-        action="store_true",
-        default=False,
-        help="If this flag is present, create an index.md page with a table of contents.",
-    )
+    # parser.add_argument(
+    #     "-d",
+    #     "--date",
+    #     type=_set_date,
+    #     default=datetime.date.today(),
+    #     help="Date in ISO format: YYYY-MM-DD. Example: 2020-05-12 corresponds to"
+    #     "March 12, 2020. Only used for the mkdocs export format.",
+    # )
+    # parser.add_argument(
+    #     "-a",
+    #     "--author",
+    #     type=str,
+    #     default="",
+    #     help="ID of the author for mkdocs's front-matter. Only used for the mkdocs "
+    #     "export format.",
+    # )
+    # parser.add_argument(
+    #     "-i",
+    #     "--make-index",
+    #     action="store_true",
+    #     default=False,
+    #     help="If this flag is present, create an index.md page with a table of contents.",
+    # )
     parser.add_argument(
         "-v",
         "--verbose",
@@ -87,7 +89,6 @@ def parse(args=sys.argv) -> Namespace:
         ),
     )
     parser.add_argument(
-        "-V",
         "--version",
         action="store_true",
         help="Print the version number and exit.",

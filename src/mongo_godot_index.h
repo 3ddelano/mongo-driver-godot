@@ -46,7 +46,7 @@ class MongoGodotIndex : public Reference {
     Variant create_many(Array indexes, Dictionary options = Dictionary());
 
     /**
-     * @brief Attempts to drop a single index from the collection given the keys and options.
+     * @brief Attempts to drop a single index from the collection given its keys and options.
      *
      * @param name_or_index Either a String representing the index name or a Dictionary representing the 'keys' and 'options'
      * of the index to drop

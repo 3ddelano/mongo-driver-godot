@@ -1,33 +1,37 @@
 """General functions and utilities to write markdown documents.
 """
 import re
-from dataclasses import dataclass
-from typing import List, Any
+from dataclasses import dataclass, field
+from typing import List
 
 
 @dataclass
 class MarkdownDocument:
     title: str
     content: List[str]
+    sub_documents: List["MarkdownDocument"] = field(default_factory=[])
 
     def get_filename(self):
         return self.title + ".md"
 
     def as_string(self) -> str:
-        """Removes duplicate empty lines from the document and returns it as a
-string."""
+        """
+        Removes duplicate empty lines from the document and returns it as a
+        string.
+        """
         text: str = "\n".join(self.content)
         return re.sub(r"\n\n+", "\n\n", text)
 
     def __repr__(self):
-        return "MarkdownDocument(title={}, content={})".format(
-            self.title, "\\n".join(self.content)[:120] + "..."
+        return "MarkdownDocument(title={}, content={}, sub_documents={})".format(
+            self.title, "\\n".join(self.content)[:120] + "...", len(self.sub_documents)
         )
 
 
 class MarkdownSection:
     def __init__(self, title: str, heading_level: int, content: List[str]):
-        """Represents a section of a markdown document.
+        """
+        Represents a section of a markdown document.
 
         Keyword Arguments:
         title: str         --
@@ -50,14 +54,22 @@ def wrap_in_newlines(markdown: List[str] = []) -> List[str]:
     return ["", *markdown, ""]
 
 
-def make_heading(line: str, level: int = 1) -> List[str]:
-    """Returns the line as a markdown heading, surrounded by two empty lines."""
+def make_heading(line: str, level: int = 1, _escape_markdown=True) -> List[str]:
+    """
+    Returns the line as a markdown heading, surrounded by two empty lines.
+    """
     hashes = "#" * level
-    return ["", " ".join([hashes, escape_markdown(line)]), ""]
+    return [
+        "",
+        " ".join([hashes, escape_markdown(line) if _escape_markdown else line]),
+        "",
+    ]
 
 
 def escape_markdown(text: str) -> str:
-    """Escapes characters that have a special meaning in markdown, like *_-"""
+    """
+    Escapes characters that have a special meaning in markdown, like *_-
+    """
     characters: str = "*_-+`"
     for character in characters:
         text = text.replace(character, "\\" + character)
@@ -65,22 +77,30 @@ def escape_markdown(text: str) -> str:
 
 
 def make_bold(text: str) -> str:
-    """Returns the text surrounded by **"""
+    """
+    Returns the text surrounded by **
+    """
     return "**" + text + "**"
 
 
 def make_italic(text: str) -> str:
-    """Returns the text surrounded by *"""
+    """
+    Returns the text surrounded by *
+    """
     return "*" + text + "*"
 
 
 def make_code_inline(text: str) -> str:
-    """Returns the text surrounded by `"""
+    """
+    Returns the text surrounded by `
+    """
     return "`" + text + "`"
 
 
 def make_code_block(text: str, language: str = "GDScript") -> str:
-    """Returns the text surrounded by `"""
+    """
+    Returns the text surrounded by `
+    """
     return "```{}\n{}\n```".format(language, text)
 
 

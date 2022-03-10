@@ -30,5 +30,6 @@
   "restructuredtext.confPath": "${workspaceFolder}\\docs",
   "restructuredtext.pythonRecommendation.disabled": true,
   "esbonio.server.enabled": false,
-  "esbonio.sphinx.confDir": "d:\\Projects\\Cpp\\mongo_driver_godot\\docs"
+  "esbonio.sphinx.confDir": "d:\\Projects\\Cpp\\mongo_driver_godot\\docs",
+  "python.analysis.extraPaths": ["./docs/gdscript-docs-maker/src"]
 }

@@ -68,7 +68,7 @@ TestUtils="*res://addons/tester/test_utils.gd"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/mongo-driver-godot/plugin.cfg", "res://addons/tester/plugin.cfg" )
+enabled=PoolStringArray(  )
 
 [physics]
 

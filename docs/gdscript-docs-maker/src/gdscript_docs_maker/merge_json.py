@@ -1,4 +1,5 @@
-"""Merges a JSON reference file dumped by Godot's language server into an edited JSON
+"""
+Merges a JSON reference file dumped by Godot's language server into an edited JSON
 reference data file.
 
 Use this to update and extend docstrings from the Godot source code.
