@@ -33,7 +33,7 @@ Copy the contents of `addons/mongo-driver-godot` into the `addons/` folder in th
 
 > For in-depth installation instructions check the [Installation Wiki](https://3ddelano.github.io/mongo-driver-godot/installation)
 
-> For **Linux / OSX** see [Cross platform support](https://3ddelano.github.io/mongo-driver-godot/cross-platform) 
+> For **Linux / OSX** see [Building the plugin](https://3ddelano.github.io/mongo-driver-godot/building) 
 
 Getting Started
 ----------
@@ -78,6 +78,8 @@ Thirdparty Libraries
 
 See [Thirdparty Libraries](./thirdparty/THIRDPARTY.md)
 
+[Documentation](https://3ddelano.github.io/mongo-driver-godot)
+-----------
 
 Contributing
 -----------
