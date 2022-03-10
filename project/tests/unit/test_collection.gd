@@ -34,177 +34,177 @@ func run():
 	assert_eq(collection.get_name(), "hello312")
 
 
-	# test("rename")
-	# database.drop()
-	# collection = database.get_collection("test_col")
-	# collection2 = database.get_collection("test2_col")
-	# assert_true(collection.drop())
-	# assert_true(collection2.drop())
-	# res = collection.insert_one({
-	# 	n = "test_doc"
-	# })
-	# assert_typeof(res, TYPE_DICTIONARY)
-	# assert_eq(res["inserted_count"], 1)
-	# assert_eq(res["inserted_id"].length(), 24)
-	# res = collection2.insert_one({n = "test2_doc"})
-	# assert_typeof(res, TYPE_DICTIONARY)
-	# assert_eq(res["inserted_count"], 1)
-	# assert_eq(res["inserted_id"].length(), 24)
-	# res = collection.rename("test2_col")
-	# assert_gt(res["MongoGodotError"].find("target namespace exists"), -1)
-	# res = collection.rename("test2_col")
-	# assert_gt(res["MongoGodotError"].find("target namespace exists"), -1)
-	# assert_true(collection.rename("valid_col1"))
-	# assert_true(collection2.rename("valid_col2"))
-	# assert_eq(collection.get_name(), "valid_col1")
-	# assert_eq(collection2.get_name(), "valid_col2")
-	# assert_true(collection2.rename("valid_col3"))
-	# assert_eq(collection2.get_name(), "valid_col3")
+	test("rename")
+	database.drop()
+	collection = database.get_collection("test_col")
+	collection2 = database.get_collection("test2_col")
+	assert_true(collection.drop())
+	assert_true(collection2.drop())
+	res = collection.insert_one({
+		n = "test_doc"
+	})
+	assert_typeof(res, TYPE_DICTIONARY)
+	assert_eq(res["inserted_count"], 1)
+	assert_eq(res["inserted_id"].length(), 24)
+	res = collection2.insert_one({n = "test2_doc"})
+	assert_typeof(res, TYPE_DICTIONARY)
+	assert_eq(res["inserted_count"], 1)
+	assert_eq(res["inserted_id"].length(), 24)
+	res = collection.rename("test2_col")
+	assert_gt(res["MongoGodotError"].find("target namespace exists"), -1)
+	res = collection.rename("test2_col")
+	assert_gt(res["MongoGodotError"].find("target namespace exists"), -1)
+	assert_true(collection.rename("valid_col1"))
+	assert_true(collection2.rename("valid_col2"))
+	assert_eq(collection.get_name(), "valid_col1")
+	assert_eq(collection2.get_name(), "valid_col2")
+	assert_true(collection2.rename("valid_col3"))
+	assert_eq(collection2.get_name(), "valid_col3")
 
 
-	# test("drop")
-	# collection = database.get_collection("test_col")
-	# collection.drop()
-	# res = collection.insert_one({ n = 1})
-	# assert_eq(collection.find({}).size(), 1)
-	# collection.drop()
-	# assert_eq(collection.find({}).size(), 0)
+	test("drop")
+	collection = database.get_collection("test_col")
+	collection.drop()
+	res = collection.insert_one({ n = 1})
+	assert_eq(collection.find({}).size(), 1)
+	collection.drop()
+	assert_eq(collection.find({}).size(), 0)
 
 
-	# test("CRUD", "insert and read single document")
-	# collection = database.get_collection("test_col")
-	# res = collection.insert_one({ _id = Mongo.ObjectId("123456789012345678901245")})
-	# assert_typeof(res, TYPE_DICTIONARY)
-	# assert_eq(res["inserted_count"], 1)
-	# assert_eq(res["inserted_id"].length(), 24)
-	# res = collection.find_one({ _id = Mongo.ObjectId("123456789012345678901245")})
-	# assert_eq(res["_id"]["$oid"], "123456789012345678901245")
+	test("CRUD", "insert and read single document")
+	collection = database.get_collection("test_col")
+	res = collection.insert_one({ _id = Mongo.ObjectId("123456789012345678901245")})
+	assert_typeof(res, TYPE_DICTIONARY)
+	assert_eq(res["inserted_count"], 1)
+	assert_eq(res["inserted_id"].length(), 24)
+	res = collection.find_one({ _id = Mongo.ObjectId("123456789012345678901245")})
+	assert_eq(res["_id"]["$oid"], "123456789012345678901245")
 
 
-	# test("CRUD", "insert with bypass_document_validation")
-	# database.get_collection("test_col").drop()
-	# collection = database.create_collection("test_col", {
-	# 	validator = {
-	# 		_id = Mongo.Eq("baz")
-	# 	}
-	# })
+	test("CRUD", "insert with bypass_document_validation")
+	database.get_collection("test_col").drop()
+	collection = database.create_collection("test_col", {
+		validator = {
+			_id = Mongo.Eq("baz")
+		}
+	})
 
-	# res = collection.insert_one({ _id = "foo"}, {
-	# 	bypass_document_validation = true
-	# })
-	# assert_typeof(res, TYPE_DICTIONARY)
-	# assert_eq(res["inserted_count"], 1)
-	# assert_eq(res["inserted_id"], "foo")
-	# collection.drop()
-
-
-	# test("CRUD", "insert and read multiple documents")
-	# collection = database.get_collection("test_col")
-	# collection.drop()
-	# docs = [
-	# 	{
-	# 		_id = Mongo.ObjectId("123456789012345678901423"),
-	# 		n = 1
-	# 	},
-	# 	{ n = 2 },
-	# 	{ n = 3 },
-	# 	{
-	# 		_id = Mongo.ObjectId("123456789012345678901424"),
-	# 		n = 4
-	# 	}
-	# ]
-	# res = collection.insert_many(docs)
-	# assert_eq(res["inserted_count"], 4)
-	# assert_size(res["inserted_ids"], 4)
-	# assert_has(res["inserted_ids"], "123456789012345678901423")
-	# assert_has(res["inserted_ids"], "123456789012345678901424")
-	# res = collection.find({})
-	# assert_typeof(res, TYPE_ARRAY)
-	# assert_size(res, 4)
-	# assert_eq(res[0]["_id"]["$oid"], "123456789012345678901423")
-	# assert_eq(res[0]["n"], 1)
-	# assert_eq(res[1]["n"], 2)
-	# assert_eq(res[2]["n"], 3)
-	# assert_eq(res[3]["_id"]["$oid"], "123456789012345678901424")
-	# assert_eq(res[3]["n"], 4)
+	res = collection.insert_one({ _id = "foo"}, {
+		bypass_document_validation = true
+	})
+	assert_typeof(res, TYPE_DICTIONARY)
+	assert_eq(res["inserted_count"], 1)
+	assert_eq(res["inserted_id"], "foo")
+	collection.drop()
 
 
-	# test("CRUD", "insert many with bypass document validation")
-	# collection.drop()
-	# collection = database.create_collection("test_col", {
-	# 	validator = {
-	# 		n = Mongo.Eq("3ddelano")
-	# 	}
-	# })
-	# res = collection.insert_many(docs, {
-	# 	bypass_document_validation = true
-	# })
-	# assert_eq(res["inserted_count"], 4)
-	# assert_eq(res["inserted_ids"].size(), 4)
-	# assert_has(res["inserted_ids"], "123456789012345678901423")
-	# assert_has(res["inserted_ids"], "123456789012345678901424")
-	# res = collection.find({})
-	# assert_typeof(res, TYPE_ARRAY)
-	# assert_size(res, 4)
-	# assert_eq(res[0]["_id"]["$oid"], "123456789012345678901423")
-	# assert_eq(res[0]["n"], 1)
-	# assert_eq(res[1]["n"], 2)
-	# assert_eq(res[2]["n"], 3)
-	# assert_eq(res[3]["_id"]["$oid"], "123456789012345678901424")
-	# assert_eq(res[3]["n"], 4)
+	test("CRUD", "insert and read multiple documents")
+	collection = database.get_collection("test_col")
+	collection.drop()
+	docs = [
+		{
+			_id = Mongo.ObjectId("123456789012345678901423"),
+			n = 1
+		},
+		{ n = 2 },
+		{ n = 3 },
+		{
+			_id = Mongo.ObjectId("123456789012345678901424"),
+			n = 4
+		}
+	]
+	res = collection.insert_many(docs)
+	assert_eq(res["inserted_count"], 4)
+	assert_size(res["inserted_ids"], 4)
+	assert_has(res["inserted_ids"], "123456789012345678901423")
+	assert_has(res["inserted_ids"], "123456789012345678901424")
+	res = collection.find({})
+	assert_typeof(res, TYPE_ARRAY)
+	assert_size(res, 4)
+	assert_eq(res[0]["_id"]["$oid"], "123456789012345678901423")
+	assert_eq(res[0]["n"], 1)
+	assert_eq(res[1]["n"], 2)
+	assert_eq(res[2]["n"], 3)
+	assert_eq(res[3]["_id"]["$oid"], "123456789012345678901424")
+	assert_eq(res[3]["n"], 4)
 
 
-	# test("CRUD", "find returns an error for invalid max_await_time")
-	# collection.drop()
-	# res = collection.find({}, {
-	# 	max_await_time = -1
-	# })
-	# assert_is_mongo_error(res)
-	# assert_gt(res["MongoGodotError"].find("out-of-bounds parameter was provided"), -1)
+	test("CRUD", "insert many with bypass document validation")
+	collection.drop()
+	collection = database.create_collection("test_col", {
+		validator = {
+			n = Mongo.Eq("3ddelano")
+		}
+	})
+	res = collection.insert_many(docs, {
+		bypass_document_validation = true
+	})
+	assert_eq(res["inserted_count"], 4)
+	assert_eq(res["inserted_ids"].size(), 4)
+	assert_has(res["inserted_ids"], "123456789012345678901423")
+	assert_has(res["inserted_ids"], "123456789012345678901424")
+	res = collection.find({})
+	assert_typeof(res, TYPE_ARRAY)
+	assert_size(res, 4)
+	assert_eq(res[0]["_id"]["$oid"], "123456789012345678901423")
+	assert_eq(res[0]["n"], 1)
+	assert_eq(res[1]["n"], 2)
+	assert_eq(res[2]["n"], 3)
+	assert_eq(res[3]["_id"]["$oid"], "123456789012345678901424")
+	assert_eq(res[3]["n"], 4)
 
 
-	# test("CRUD", "find with collation (case insensitive)")
-	# collection.drop()
-	# res = collection.insert_one({n = "foo"})
-	# assert_is_not_mongo_error(res)
-	# res = collection.find({n = "FOO"}, {
-	# 	collation = case_insensitive_collation
-	# })
-	# assert_typeof(res, TYPE_ARRAY)
-	# assert_eq(res[0]["n"], "foo")
+	test("CRUD", "find returns an error for invalid max_await_time")
+	collection.drop()
+	res = collection.find({}, {
+		max_await_time = -1
+	})
+	assert_is_mongo_error(res)
+	assert_gt(res["MongoGodotError"].find("out-of-bounds parameter was provided"), -1)
 
 
-	# test("CRUD", "find with return_key")
-	# collection.drop()
-	# res = collection.insert_one({a = 3})
-	# assert_is_not_mongo_error(res)
-	# var indexes = collection.get_indexes()
-	# res = indexes.create_one({
-	# 	keys = {
-	# 		a = 1
-	# 	}
-	# })
-	# assert_typeof(res, TYPE_STRING)
-	# assert_eq(res, "a_1")
-	# res = collection.find({a = 3}, {
-	# 	return_key = true
-	# })
-	# assert_typeof(res, TYPE_ARRAY)
-	# assert_size(res, 1)
-	# assert_not_has(res[0], "_id")
-	# assert_eq(res[0]["a"], 3)
+	test("CRUD", "find with collation (case insensitive)")
+	collection.drop()
+	res = collection.insert_one({n = "foo"})
+	assert_is_not_mongo_error(res)
+	res = collection.find({n = "FOO"}, {
+		collation = case_insensitive_collation
+	})
+	assert_typeof(res, TYPE_ARRAY)
+	assert_eq(res[0]["n"], "foo")
 
 
-	# test("CRUD", "find one with show_record_id")
-	# collection.drop()
-	# res = collection.insert_one({a = 3})
-	# assert_is_not_mongo_error(res)
-	# res = collection.find_one({}, {
-	# 	show_record_id = true
-	# })
-	# assert_typeof(res, TYPE_DICTIONARY)
-	# assert_eq(res["$recordId"], 1)
-	# assert_eq(res["a"], 3)
+	test("CRUD", "find with return_key")
+	collection.drop()
+	res = collection.insert_one({a = 3})
+	assert_is_not_mongo_error(res)
+	var indexes = collection.get_indexes()
+	res = indexes.create_one({
+		keys = {
+			a = 1
+		}
+	})
+	assert_typeof(res, TYPE_STRING)
+	assert_eq(res, "a_1")
+	res = collection.find({a = 3}, {
+		return_key = true
+	})
+	assert_typeof(res, TYPE_ARRAY)
+	assert_size(res, 1)
+	assert_not_has(res[0], "_id")
+	assert_eq(res[0]["a"], 3)
+
+
+	test("CRUD", "find one with show_record_id")
+	collection.drop()
+	res = collection.insert_one({a = 3})
+	assert_is_not_mongo_error(res)
+	res = collection.find_one({}, {
+		show_record_id = true
+	})
+	assert_typeof(res, TYPE_DICTIONARY)
+	assert_eq(res["$recordId"], 1)
+	assert_eq(res["a"], 3)
 
 
 	test("CRUD", "find one with collation")

@@ -1,5 +1,8 @@
 extends Control
 
+# Nothing here
+# Testing some stuff
+
 func _ready() -> void:
 	var driver = MongoDriver.new()
 	var connection: MongoConnection = driver.connect_to_server(Env.get_var("MONGODB_URI"))

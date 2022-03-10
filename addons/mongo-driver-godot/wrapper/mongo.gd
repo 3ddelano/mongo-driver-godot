@@ -3,8 +3,8 @@
 class_name Mongo
 extends Reference
 
-# Options provided to find_one_and_replace method
-class FindOneAndReplaceOptions:
+# Options provided to find_one_and_replace and find_one_and_update methods
+class FindOneOptions:
 
 	# Version of document to return, either original or replaced.
 	enum ReturnDocument {

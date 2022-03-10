@@ -9,7 +9,7 @@ enum TestMode {
 
 
 # Config Vars
-var TESTS_PATH = "res://tests/benchmark/test_insert_many_large.gd"
+var TESTS_PATH = "res://tests/unit/"
 var TEST_FILE_PREFIX = "test_"
 var TEST_FILE_SUFFIX = ".gd"
 var TEST_MODE = TestMode.SINGLE_FILE
@@ -23,7 +23,7 @@ var _tests = []
 func _ready() -> void:
 	TestUtils.start_epoch = OS.get_ticks_msec()
 
-	if TEST_MODE == TestMode.SINGLE_FILE:
+	if TEST_MODE == TestMode.RECURSIVE_DIRECTORY:
 		run_test(TESTS_PATH)
 	else:
 		run_tests()

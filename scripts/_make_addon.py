@@ -4,17 +4,18 @@ import shutil
 import glob
 import os
 
-print("Deleting unneccesary files")
 patterns = ["*.lib", "*.exp", "*.import"]
 for pattern in patterns:
-    for file in glob.glob("addons/**/" + pattern):
+    print(pattern)
+    for file in glob.glob("addons/**/" + pattern, recursive=True):
+        print("Deleting " + file)
         os.remove(file)
 
 version = input("Enter version: ")
 shutil.make_archive(
-    base_name ="mongo-driver-godot.v" + version,
-    format = 'zip',
-    root_dir = "addons/",
-    base_dir = "mongo-driver-godot"
+    base_name="mongo-driver-godot.v" + version,
+    format="zip",
+    root_dir="addons/",
+    base_dir="mongo-driver-godot",
 )
 print("Done")
