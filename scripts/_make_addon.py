@@ -6,7 +6,6 @@ import os
 
 patterns = ["*.lib", "*.exp", "*.import"]
 for pattern in patterns:
-    print(pattern)
     for file in glob.glob("addons/**/" + pattern, recursive=True):
         print("Deleting " + file)
         os.remove(file)

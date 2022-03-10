@@ -5,6 +5,7 @@
 *.o
 *.os
 .env
+*.import
 bin/
 mongo-driver-godot.v*.zip
 work/
