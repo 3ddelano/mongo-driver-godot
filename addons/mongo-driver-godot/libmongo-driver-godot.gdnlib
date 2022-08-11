@@ -10,9 +10,11 @@ reloadable=true
 OSX.64="res://addons/mongo-driver-godot/bin/osx/libmongo-driver-godot.dylib"
 Windows.64="res://addons/mongo-driver-godot/bin/win64/libmongo-driver-godot.dll"
 X11.64="res://addons/mongo-driver-godot/bin/x11/libmongo-driver-godot.so"
+Server="res://addons/mongo-driver-godot/bin/x11/libmongo-driver-godot.so"
 
 [dependencies]
 
 OSX.64=[  ]
 Windows.64=[ "res://addons/mongo-driver-godot/bin/win64/bson-1.0.dll", "res://addons/mongo-driver-godot/bin/win64/bsoncxx.dll", "res://addons/mongo-driver-godot/bin/win64/concrt140.dll", "res://addons/mongo-driver-godot/bin/win64/mongoc-1.0.dll", "res://addons/mongo-driver-godot/bin/win64/mongocxx.dll", "res://addons/mongo-driver-godot/bin/win64/msvcp140.dll", "res://addons/mongo-driver-godot/bin/win64/msvcp140_1.dll", "res://addons/mongo-driver-godot/bin/win64/msvcp140_2.dll", "res://addons/mongo-driver-godot/bin/win64/vcruntime140.dll" ]
-X11.64=[ "res://addons/mongo-driver-godot/bin/x11/libmongocxx.so", "res://addons/mongo-driver-godot/bin/x11/libbsoncxx.so", "res://addons/mongo-driver-godot/bin/x11/libbsoncxx.so.3.7.0-pre", "res://addons/mongo-driver-godot/bin/x11/libbsoncxx.so._noabi", "res://addons/mongo-driver-godot/bin/x11/libmongocxx.so", "res://addons/mongo-driver-godot/bin/x11/libmongocxx.so.3.7.0-pre", "res://addons/mongo-driver-godot/bin/x11/libmongocxx.so._noabi" ]
+X11.64=[  ]
+Server=[  ]
