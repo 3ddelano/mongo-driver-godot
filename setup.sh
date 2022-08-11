@@ -75,7 +75,7 @@ cmake ..                                             \
     -DENABLE_TESTS=OFF                               \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE                   \
     -DLIBMONGOC_DIR==$bin_mongo_c_driver_dir         \
-    -DLIBBSON_DIR==$bin_mongo_c_driver_dir           \
+    -CMAKE_PREFIX_PATH=$bin_mongo_c_driver_dir       \
     -DCMAKE_INSTALL_PREFIX=$bin_mongo_cxx_driver_dir \
     -DCMAKE_PREFIX_PATH=$bin_mongo_cxx_driver_dir
 
