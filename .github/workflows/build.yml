@@ -1,0 +1,119 @@
+name: "Build MongoDB Driver"
+
+on: [push, pull_request]
+
+jobs:
+  windows-release:
+    name: Windows debug build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Install SCons
+        run: |
+          python -m pip install scons
+          python --version
+          scons --version
+      - name: Setup build environment
+        run: ./setup.bat
+      - name: Build project
+        run: scons platform=windows target=release
+      - name: Upload artificat
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows-debug-${{ github.sha }}
+          if-no-files-found: error
+          path: addons/mongo-driver-godot/bin/win64/
+
+  linux-debug:
+    name: Linux debug build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Install SCons
+        run: |
+          python -m pip install scons
+          python --version
+          scons --version
+      - name: Setup build environment
+        run: ./setup.sh linux debug
+      - name: Build project
+        run: scons platform=linux target=debug
+      - name: Upload artificat
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux-debug-${{ github.sha }}
+          if-no-files-found: error
+          path: addons/mongo-driver-godot/bin/x11/
+
+  linux-release:
+    name: Linux release build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Install SCons
+        run: |
+          python -m pip install scons
+          python --version
+          scons --version
+      - name: Setup build environment
+        run: ./setup.sh linux release
+      - name: Build project
+        run: scons platform=linux target=release
+      - name: Upload artificat
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux-release-${{ github.sha }}
+          if-no-files-found: error
+          path: addons/mongo-driver-godot/bin/x11/
+
+  macos-debug:
+    name: MacOS debug build
+    runs-on: macos-11
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Install SCons
+        run: |
+          brew install scons
+          python --version
+          scons --version
+      - name: Setup build environment
+        run: ./setup.sh osx debug
+      - name: Build project
+        run: scons platform=osx target=debug
+      - name: Upload artificat
+        uses: actions/upload-artifact@v2
+        with:
+          name: osx-debug-${{ github.sha }}
+          if-no-files-found: error
+          path: addons/mongo-driver-godot/bin/osx/
+
+  macos-release:
+    name: MacOS release build
+    runs-on: macos-11
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Install SCons
+        run: |
+          brew install scons
+          python --version
+          scons --version
+      - name: Setup build environment
+        run: ./setup.sh osx release
+      - name: Build project
+        run: scons platform=osx target=release
+      - name: Upload artificat
+        uses: actions/upload-artifact@v2
+        with:
+          name: osx-release-${{ github.sha }}
+          if-no-files-found: error
+          path: addons/mongo-driver-godot/bin/osx/
