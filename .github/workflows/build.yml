@@ -16,7 +16,7 @@ jobs:
           python --version
           scons --version
       - name: Setup build environment
-        run: ./setup.bat
+        run: ./setup.bat "Visual Studio Enterprise 2022"
       - name: Build project
         run: scons platform=windows target=release
       - name: Upload artificat

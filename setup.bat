@@ -2,7 +2,7 @@
 title Setup for mongo-driver-godot
 setlocal ENABLEDELAYEDEXPANSION
 
-set build_target="Visual Studio 16 2019"
+set build_target="%~1"
 set target="release"
 echo Building using %build_target% compiler and %target% target
 
