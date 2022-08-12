@@ -76,5 +76,5 @@ popd
 
 
 echo Copying dlls to project
-(robocopy %bin_mongo_c_driver_dir%\bin %project_bin_win_dir% /NFL /NDL /NJH /NJS /nc /ns /np /IS /IT) IF %ERRORLEVEL% LSS 8 SET ERRORLEVEL = 0
-(robocopy %bin_mongo_cxx_driver_dir%\bin %project_bin_win_dir% /NFL /NDL /NJH /NJS /nc /ns /np /IS /IT) IF %ERRORLEVEL% LSS 8 SET ERRORLEVEL = 0
+(robocopy %bin_mongo_c_driver_dir%\bin %project_bin_win_dir% /NFL /NDL /NJH /NJS /nc /ns /np /IS /IT) ^& IF %ERRORLEVEL% LSS 8 SET ERRORLEVEL = 0
+(robocopy %bin_mongo_cxx_driver_dir%\bin %project_bin_win_dir% /NFL /NDL /NJH /NJS /nc /ns /np /IS /IT) ^& IF %ERRORLEVEL% LSS 8 SET ERRORLEVEL = 0
