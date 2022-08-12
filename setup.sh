@@ -39,7 +39,11 @@ echo Builing godot-cpp $target lib
 
 pushd thirdparty/godot-cpp
 CORES=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || sysctl -n hw.ncpu)
-scons platform=$platform target=$target generate_bindings=yes -j$CORES
+if [[ $platform == "osx" ]]; then
+    scons platform=osx macos_arch=universal target=$target generate_bindings=yes -j$CORES
+else
+    scons platform=$platform target=$target generate_bindings=yes -j$CORES
+fi
 cp ./bin/libgodot-cpp.* $bin_godot_cpp_dir
 popd
 
