@@ -4,6 +4,30 @@ on: [push, pull_request]
 
 jobs:
   windows-release:
+    name: Windows release build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: Install SCons
+        run: |
+          python -m pip install scons
+          python --version
+          scons --version
+      - name: Setup build environment
+        run: ./setup.bat "Visual Studio 17 2022" release
+      - name: Build project
+        run: scons platform=windows target=release use_mingw=yes
+      - name: Upload artificat
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows-release-${{ github.sha }}
+          if-no-files-found: error
+          path: addons/mongo-driver-godot/bin/win64/
+  
+  windows-debug:
     name: Windows debug build
     runs-on: windows-latest
     steps:
@@ -17,9 +41,9 @@ jobs:
           python --version
           scons --version
       - name: Setup build environment
-        run: ./setup.bat "Visual Studio 17 2022"
+        run: ./setup.bat "Visual Studio 17 2022" debug
       - name: Build project
-        run: scons platform=windows target=release
+        run: scons platform=windows target=debug use_mingw=yes
       - name: Upload artificat
         uses: actions/upload-artifact@v2
         with:

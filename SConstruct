@@ -2,12 +2,58 @@
 import os
 import atexit
 
+
+# Workaround for MinGW. See:
+# http://www.scons.org/wiki/LongCmdLinesOnWin32
+if os.name == "nt":
+    import subprocess
+
+    def my_sub_process(cmdline, env):
+        # print "SPAWNED : " + cmdline
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        proc = subprocess.Popen(
+            cmdline,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            startupinfo=startupinfo,
+            shell=False,
+            env=env,
+        )
+        data, err = proc.communicate()
+        rv = proc.wait()
+        if rv:
+            print("=====")
+            print(err.decode("utf-8"))
+            print("=====")
+        return rv
+
+    def my_spawn(sh, escape, cmd, args, env):
+
+        newargs = " ".join(args[1:])
+        cmdline = cmd + " " + newargs
+
+        rv = 0
+        if len(cmdline) > 32000 and cmd.endswith("ar"):
+            cmdline = cmd + " " + args[1] + " " + args[2] + " "
+            for i in range(3, len(args)):
+                rv = my_sub_process(cmdline + args[i], env)
+                if rv:
+                    break
+        else:
+            rv = my_sub_process(cmdline, env)
+
+        return rv
+
 opts = Variables([], ARGUMENTS)
 
 # Gets the standard flags CC, CCX, etc.
 env = DefaultEnvironment()
 
 # Define our options
+opts.Add(BoolVariable('use_mingw',
+        'Use the MinGW compiler instead of MSVC - only effective on Windows', False))
 opts.Add(BoolVariable('clean_obj', "Remove *.obj files?", 'no'))
 opts.Add(EnumVariable('target', "Compilation target",
          'debug', ['d', 'debug', 'r', 'release']))
@@ -69,21 +115,36 @@ elif env['platform'] in ('x11', 'linux'):
     else:
         env.Append(CCFLAGS=['-fPIC', '-g', '-O3', '-std=c++17'])
 
-elif env['platform'] == "windows":
+elif env['platform'] == 'windows':
     env['target_path'] += 'win64/'
     CPP_LIBRARY += '.windows'
-    # This makes sure to keep the session environment variables on windows,
-    # that way you can run scons in a vs 2017 prompt and it will find all the required tools
-    env.Append(ENV=os.environ)
+    
+    if env["use_mingw"]:
+        # Don't Clone the environment. Because otherwise, SCons will pick up msvc stuff.
+        env = Environment(ENV=os.environ, tools=['mingw'])
+        opts.Update(env)
+        
+        env.Append(CCFLAGS=['-std=c++17'])
 
-    env.Append(CCFLAGS=['-DWIN32', '-D_WIN32', '-D_WINDOWS',
-               '-W3', '-GR', '-D_CRT_SECURE_NO_WARNINGS', '/std:c++17'])
+        # Don't want lib prefixes
+        env['IMPLIBPREFIX'] = ''
+        env['SHLIBPREFIX'] = ''
 
-    if env['target'] in ('debug', 'd'):
-        env.Append(CCFLAGS="/D _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS")
-        env.Append(CCFLAGS=['-EHsc', '-D_DEBUG', '-MDd'])
+        env['SPAWN'] = my_spawn
+        env.Replace(ARFLAGS=["q"])
     else:
-        env.Append(CCFLAGS=['-O2', '-EHsc', '-DNDEBUG', '-MD'])
+        # This makes sure to keep the session environment variables on windows,
+        # that way you can run scons in a vs 2017 prompt and it will find all the required tools
+        env.Append(ENV=os.environ)
+
+        env.Append(CCFLAGS=['-DWIN32', '-D_WIN32', '-D_WINDOWS',
+                '-W3', '-GR', '-D_CRT_SECURE_NO_WARNINGS', '/std:c++17'])
+
+        if env['target'] in ('debug', 'd'):
+            env.Append(CCFLAGS="/D _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS")
+            env.Append(CCFLAGS=['-EHsc', '-D_DEBUG', '-MDd'])
+        else:
+            env.Append(CCFLAGS=['-O2', '-EHsc', '-DNDEBUG', '-MD'])
 
 if env['target'] in ('debug', 'd'):
     CPP_LIBRARY += '.debug'

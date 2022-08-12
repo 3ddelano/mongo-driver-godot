@@ -3,7 +3,7 @@ title Setup for mongo-driver-godot
 setlocal ENABLEDELAYEDEXPANSION
 
 set build_target="%~1"
-set target="release"
+set target=%2
 echo Building using %build_target% compiler and %target% target
 
 if not exist "bin/godot-cpp" mkdir "bin/godot-cpp"
