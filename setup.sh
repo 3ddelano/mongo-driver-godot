@@ -69,7 +69,8 @@ cmake ..                                           \
     -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF        \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE                 \
     -DCMAKE_INSTALL_PREFIX=$bin_mongo_c_driver_dir \
-    -DCMAKE_PREFIX_PATH=$bin_mongo_c_driver_dir 
+    -DCMAKE_PREFIX_PATH=$bin_mongo_c_driver_dir    \
+    -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"
 
 sudo cmake --build . --config MinSizeRel --target install
 popd
@@ -82,7 +83,8 @@ cmake ..                                             \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE                   \
     -DLIBMONGOC_DIR==$bin_mongo_c_driver_dir         \
     -DCMAKE_PREFIX_PATH=$bin_mongo_c_driver_dir      \
-    -DCMAKE_INSTALL_PREFIX=$bin_mongo_cxx_driver_dir
+    -DCMAKE_INSTALL_PREFIX=$bin_mongo_cxx_driver_dir \
+    -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"
 
 sudo cmake --build . --config $CONFIG_TYPE --target install
 popd
