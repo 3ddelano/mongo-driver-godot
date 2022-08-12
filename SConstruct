@@ -90,10 +90,7 @@ if env['target'] in ('debug', 'd'):
 else:
     CPP_LIBRARY += '.release'
 
-if env['platform'] == 'osx':
-    CPP_LIBRARY += '.universal'
-else:
-    CPP_LIBRARY += '.' + str(bits)
+CPP_LIBRARY += '.' + str(bits)
 
 if env['use_llvm']:
     env['CC'] = 'clang'
