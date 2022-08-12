@@ -38,10 +38,6 @@ bits = 64
 opts.Update(env)
 
 # Process some arguments
-if env['use_llvm']:
-    env['CC'] = 'clang'
-    env['CXX'] = 'clang++'
-
 if env['p'] != '':
     env['platform'] = env['p']
 
@@ -53,6 +49,7 @@ else:
 
 # Check our platform specifics
 if env['platform'] == "osx":
+    env['use_llvm'] = True
     env['target_path'] += 'osx/'
     CPP_LIBRARY += '.osx'
     if env['target'] in ('debug', 'd'):
@@ -97,6 +94,10 @@ if env['platform'] == 'osx':
     CPP_LIBRARY += '.universal'
 else:
     CPP_LIBRARY += '.' + str(bits)
+
+if env['use_llvm']:
+    env['CC'] = 'clang'
+    env['CXX'] = 'clang++'
 
 # make sure our binding library is properly includes
 env.Append(CPPPATH=['.', GODOT_HEADERS_PATH, CPP_BINDINGS_PATH + 'include/',
