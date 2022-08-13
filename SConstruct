@@ -1,6 +1,7 @@
 #!python
 import os
 import atexit
+from platform import platform
 
 
 # Workaround for MinGW. See:
@@ -152,6 +153,9 @@ else:
     CPP_LIBRARY += '.release'
 
 CPP_LIBRARY += '.' + str(bits)
+
+if env['platform'] == 'windows':
+    CPP_LIBRARY += '.lib'
 
 if env['use_llvm']:
     env['CC'] = 'clang'
