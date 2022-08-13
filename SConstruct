@@ -127,10 +127,6 @@ elif env['platform'] == 'windows':
         
         env.Append(CCFLAGS=['-std=c++17'])
 
-        # Don't want lib prefixes
-        env['IMPLIBPREFIX'] = ''
-        env['SHLIBPREFIX'] = ''
-
         env['SPAWN'] = my_spawn
         env.Replace(ARFLAGS=["q"])
     else:
