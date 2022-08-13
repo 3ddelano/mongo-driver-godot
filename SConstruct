@@ -152,6 +152,7 @@ CPP_LIBRARY += '.' + str(bits)
 
 if env['platform'] == 'windows':
     CPP_LIBRARY += '.lib'
+    CPP_LIBRARY = 'lib' + CPP_LIBRARY
 
 if env['use_llvm']:
     env['CC'] = 'clang'
