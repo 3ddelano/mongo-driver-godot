@@ -104,6 +104,7 @@ jobs:
   macos-debug:
     name: MacOS debug build
     runs-on: macos-11
+    if: ${{ false }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -128,6 +129,7 @@ jobs:
   macos-release:
     name: MacOS release build
     runs-on: macos-11
+    if: ${{ false }}
     steps:
       - uses: actions/checkout@v3
         with:
