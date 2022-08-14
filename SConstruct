@@ -117,15 +117,20 @@ elif env['platform'] in ('x11', 'linux'):
         env.Append(CCFLAGS=['-fPIC', '-g', '-O3', '-std=c++17'])
 
 elif env['platform'] == 'windows':
-    env['target_path'] += 'win64/'
     CPP_LIBRARY += '.windows'
     
     if env["use_mingw"]:
         # Don't Clone the environment. Because otherwise, SCons will pick up msvc stuff.
         env = Environment(ENV=os.environ, tools=['mingw'])
-        opts.Update(env)
         
-        env.Append(CCFLAGS=['-std=c++17'])
+        env.Append(CCFLAGS=['-O3', '-Wwrite-strings'])
+        env.Append(CXXFLAGS=['-std=c++17'])
+        env.Append(LINKFLAGS=[
+            '--static',
+            '-Wl,--no-undefined',
+            '-static-libgcc',
+            '-static-libstdc++',
+        ])
 
         env['SPAWN'] = my_spawn
         env.Replace(ARFLAGS=["q"])
@@ -133,6 +138,7 @@ elif env['platform'] == 'windows':
         # This makes sure to keep the session environment variables on windows,
         # that way you can run scons in a vs 2017 prompt and it will find all the required tools
         env.Append(ENV=os.environ)
+        opts.Update(env)
 
         env.Append(CCFLAGS=['-DWIN32', '-D_WIN32', '-D_WINDOWS',
                 '-W3', '-GR', '-D_CRT_SECURE_NO_WARNINGS', '/std:c++17'])
@@ -142,6 +148,8 @@ elif env['platform'] == 'windows':
             env.Append(CCFLAGS=['-EHsc', '-D_DEBUG', '-MDd'])
         else:
             env.Append(CCFLAGS=['-O2', '-EHsc', '-DNDEBUG', '-MD'])
+    
+    env['target_path'] += 'win64/'
 
 if env['target'] in ('debug', 'd'):
     CPP_LIBRARY += '.debug'
@@ -149,10 +157,6 @@ else:
     CPP_LIBRARY += '.release'
 
 CPP_LIBRARY += '.' + str(bits)
-
-if env['platform'] == 'windows':
-    CPP_LIBRARY += '.lib'
-    CPP_LIBRARY = 'lib' + CPP_LIBRARY
 
 if env['use_llvm']:
     env['CC'] = 'clang'
