@@ -1,6 +1,51 @@
 #!python
 import os
 import atexit
+from platform import platform
+
+
+# Workaround for MinGW. See:
+# http://www.scons.org/wiki/LongCmdLinesOnWin32
+if os.name == "nt":
+    import subprocess
+
+    def my_sub_process(cmdline, env):
+        # print "SPAWNED : " + cmdline
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        proc = subprocess.Popen(
+            cmdline,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            startupinfo=startupinfo,
+            shell=False,
+            env=env,
+        )
+        data, err = proc.communicate()
+        rv = proc.wait()
+        if rv:
+            print("=====")
+            print(err.decode("utf-8"))
+            print("=====")
+        return rv
+
+    def my_spawn(sh, escape, cmd, args, env):
+
+        newargs = " ".join(args[1:])
+        cmdline = cmd + " " + newargs
+
+        rv = 0
+        if len(cmdline) > 32000 and cmd.endswith("ar"):
+            cmdline = cmd + " " + args[1] + " " + args[2] + " "
+            for i in range(3, len(args)):
+                rv = my_sub_process(cmdline + args[i], env)
+                if rv:
+                    break
+        else:
+            rv = my_sub_process(cmdline, env)
+
+        return rv
 
 opts = Variables([], ARGUMENTS)
 
@@ -8,6 +53,8 @@ opts = Variables([], ARGUMENTS)
 env = DefaultEnvironment()
 
 # Define our options
+opts.Add(BoolVariable('use_mingw',
+        'Use the MinGW compiler instead of MSVC - only effective on Windows', False))
 opts.Add(BoolVariable('clean_obj', "Remove *.obj files?", 'no'))
 opts.Add(EnumVariable('target', "Compilation target",
          'debug', ['d', 'debug', 'r', 'release']))
@@ -38,10 +85,6 @@ bits = 64
 opts.Update(env)
 
 # Process some arguments
-if env['use_llvm']:
-    env['CC'] = 'clang'
-    env['CXX'] = 'clang++'
-
 if env['p'] != '':
     env['platform'] = env['p']
 
@@ -53,6 +96,7 @@ else:
 
 # Check our platform specifics
 if env['platform'] == "osx":
+    env['use_llvm'] = True
     env['target_path'] += 'osx/'
     CPP_LIBRARY += '.osx'
     if env['target'] in ('debug', 'd'):
@@ -71,42 +115,52 @@ elif env['platform'] in ('x11', 'linux'):
         env.Append(CCFLAGS=['-fPIC', '-g3', '-Og', '-std=c++17'])
     else:
         env.Append(CCFLAGS=['-fPIC', '-g', '-O3', '-std=c++17'])
-    
-    env.Append(LIBPATH=['addons/mongo-driver-godot/bin/x11'])
-    env.Append(LINKFLAGS=["-Wl,-R,'$$ORIGIN'"])
-    env.Append(LIBS=['mongocxx.so', 'bsoncxx.so'])
-    env.Append(CPPPATH=['/usr/local/include/mongocxx/v_noabi/', '/usr/local/include/bsoncxx/v_noabi', '/usr/local/include/libmongoc-1.0', '/usr/local/include/libbson-1.0'])
 
-elif env['platform'] == "windows":
-    env['target_path'] += 'win64/'
+elif env['platform'] == 'windows':
     CPP_LIBRARY += '.windows'
-    # This makes sure to keep the session environment variables on windows,
-    # that way you can run scons in a vs 2017 prompt and it will find all the required tools
-    env.Append(ENV=os.environ)
+    
+    if env["use_mingw"]:
+        # Don't Clone the environment. Because otherwise, SCons will pick up msvc stuff.
+        env = Environment(ENV=os.environ, tools=['mingw'])
+        
+        env.Append(CCFLAGS=['-O3', '-Wwrite-strings'])
+        env.Append(CXXFLAGS=['-std=c++17'])
+        env.Append(LINKFLAGS=[
+            '--static',
+            '-Wl,--no-undefined',
+            '-static-libgcc',
+            '-static-libstdc++',
+        ])
 
-    env.Append(CCFLAGS=['-DWIN32', '-D_WIN32', '-D_WINDOWS',
-               '-W3', '-GR', '-D_CRT_SECURE_NO_WARNINGS', '/std:c++17'])
-
-    if env['target'] in ('debug', 'd'):
-        env.Append(CCFLAGS=['-EHsc', '-D_DEBUG', '-MDd'])
+        env['SPAWN'] = my_spawn
+        env.Replace(ARFLAGS=["q"])
     else:
-        env.Append(CCFLAGS=['-O2', '-EHsc', '-DNDEBUG', '-MD'])
+        # This makes sure to keep the session environment variables on windows,
+        # that way you can run scons in a vs 2017 prompt and it will find all the required tools
+        env.Append(ENV=os.environ)
+        opts.Update(env)
 
-    env.Append(LIBPATH=[MONGO_CXX_LIBPATH])
-    env.Append(LIBS=[MONGO_CXX_LIBPATH + '*.lib'])
-    env.Append(CPPPATH=[MONGO_CXX_INCLUDE_PATH + 'bsoncxx/v_noabi/'])
-    env.Append(CPPPATH=[MONGO_CXX_INCLUDE_PATH + 'mongocxx/v_noabi/'])
+        env.Append(CCFLAGS=['-DWIN32', '-D_WIN32', '-D_WINDOWS',
+                '-W3', '-GR', '-D_CRT_SECURE_NO_WARNINGS', '/std:c++17'])
+
+        if env['target'] in ('debug', 'd'):
+            env.Append(CCFLAGS="/D _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS")
+            env.Append(CCFLAGS=['-EHsc', '-D_DEBUG', '-MDd'])
+        else:
+            env.Append(CCFLAGS=['-O2', '-EHsc', '-DNDEBUG', '-MD'])
+    
+    env['target_path'] += 'win64/'
 
 if env['target'] in ('debug', 'd'):
-    env.Append(CCFLAGS="/D _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS")
     CPP_LIBRARY += '.debug'
 else:
     CPP_LIBRARY += '.release'
 
-if env['platform'] == 'osx':
-    CPP_LIBRARY += '.universal'
-else:
-    CPP_LIBRARY += '.' + str(bits)
+CPP_LIBRARY += '.' + str(bits)
+
+if env['use_llvm']:
+    env['CC'] = 'clang'
+    env['CXX'] = 'clang++'
 
 # make sure our binding library is properly includes
 env.Append(CPPPATH=['.', GODOT_HEADERS_PATH, CPP_BINDINGS_PATH + 'include/',
@@ -116,6 +170,11 @@ env.Append(LIBS=[CPP_LIBRARY])
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=['thirdparty/', 'src/'])
+env.Append(CPPPATH=[MONGO_CXX_INCLUDE_PATH + 'bsoncxx/v_noabi/'])
+env.Append(CPPPATH=[MONGO_CXX_INCLUDE_PATH + 'mongocxx/v_noabi/'])
+env.Append(LIBPATH=[MONGO_CXX_LIBPATH])
+env.Append(LIBS=['mongocxx', 'bsoncxx'])
+env.Append(RPATH=env.Literal('\\$$ORIGIN'))
 
 sources = [Glob('src/*.cpp')]
 
